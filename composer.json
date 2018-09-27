@@ -1,0 +1,21 @@
+{
+    "require": {
+        "php": "^7.2",
+        "eventsauce/eventsauce": "^0.4.0",
+        "illuminate/bus": "^5.6",
+        "illuminate/container": "^5.6",
+        "illuminate/queue": "^5.6",
+        "illuminate/support": "^5.6",
+        "ramsey/uuid": "^3.8"
+    },
+    "autoload": {
+        "psr-4": {
+          "EventSauce\\LaravelEventSauce\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
