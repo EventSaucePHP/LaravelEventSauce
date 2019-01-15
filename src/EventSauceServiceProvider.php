@@ -8,6 +8,7 @@ use EventSauce\EventSourcing\MessageDispatcherChain;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
+use EventSauce\LaravelEventSauce\Commands\GenerateCodeCommand;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,12 +18,11 @@ class EventSauceServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/eventsauce.php' => config_path('eventsauce.php'),
+                __DIR__.'/../config/eventsauce.php' => config_path('eventsauce.php'),
             ], 'config');
-        }
-        if (!class_exists('CreateDomainMessagesTable')) {
+
             $this->publishes([
-                __DIR__ . '/../migrations/create_domain_messages_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_domain_messages_table.php'),
+                __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'migrations');
         }
     }
