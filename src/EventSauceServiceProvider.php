@@ -42,7 +42,7 @@ final class EventSauceServiceProvider extends ServiceProvider
         foreach (config('eventsauce.aggregate_roots') as $aggregateRootConfig) {
             $this->app->bind($aggregateRootConfig['repository'], function (Container $app) use ($aggregateRootConfig) {
                 return new ConstructingAggregateRootRepository(
-                    $aggregateRootConfig['class'],
+                    $aggregateRootConfig['aggregate_root'],
                     $app->make(LaravelMessageRepository::class),
                     new MessageDispatcherChain(
                         $app->make(LaravelMessageDispatcher::class),
@@ -50,23 +50,23 @@ final class EventSauceServiceProvider extends ServiceProvider
                     )
                 );
             });
-
-            $this->app->bind(SynchronousMessageDispatcher::class, function (Container $app) use ($aggregateRootConfig) {
-                $consumers = array_map(function ($consumerName) use ($app) {
-                    return $app->make($consumerName);
-                }, $aggregateRootConfig['sync_consumers']);
-
-                return new SynchronousMessageDispatcher(...$consumers);
-            });
-
-            $this->app->bind('eventsauce.async_dispatcher', function (Container $app) use ($aggregateRootConfig) {
-                $consumers = array_map(function ($consumerName) use ($app) {
-                    return $app->make($consumerName);
-                }, $aggregateRootConfig['async_consumers']);
-
-                return new SynchronousMessageDispatcher(...$consumers);
-            });
         }
+
+        $this->app->bind(SynchronousMessageDispatcher::class, function (Container $app) {
+            $consumers = array_map(function ($consumerName) use ($app) {
+                return $app->make($consumerName);
+            }, data_get(config('eventsauce'), 'aggregate_roots.*.sync_consumers'));
+
+            return new SynchronousMessageDispatcher(...$consumers);
+        });
+
+        $this->app->bind('eventsauce.async_dispatcher', function (Container $app) {
+            $consumers = array_map(function ($consumerName) use ($app) {
+                return $app->make($consumerName);
+            }, data_get(config('eventsauce'), 'aggregate_roots.*.async_consumers'));
+
+            return new SynchronousMessageDispatcher(...$consumers);
+        });
 
         $this->app->bind(MessageSerializer::class, function () {
             return new ConstructingMessageSerializer();
