@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EventSauce\LaravelEventSauce\Commands;
 
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
