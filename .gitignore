@@ -1,2 +1,5 @@
-/vendor
+vendor/
+.php_cs.cache
+coverage/
+coverage.xml
 composer.lock
