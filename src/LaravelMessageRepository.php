@@ -11,7 +11,6 @@ use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Generator;
 use Illuminate\Database\Connection;
-use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 
 final class LaravelMessageRepository implements MessageRepository
@@ -43,16 +42,17 @@ final class LaravelMessageRepository implements MessageRepository
             $recordedAt = $serialized['headers'][Header::TIME_OF_RECORDING];
             $aggregateRootId = $serialized['headers'][Header::AGGREGATE_ROOT_ID] ?? null;
 
-            DB::insert("INSERT INTO domain_messages
-                          (event_id, event_type, aggregate_root_id, recorded_at, payload)
-                          VALUES (?, ?, ?, ?, ?)
+            $this->connection->insert("
+              INSERT INTO domain_messages
+              (event_id, event_type, aggregate_root_id, recorded_at, payload)
+              VALUES (?, ?, ?, ?, ?)
             ", [$eventId, $type, $aggregateRootId, $recordedAt, $payload]);
         }
     }
 
     public function retrieveAll(AggregateRootId $id): Generator
     {
-        $payloads = DB::select(
+        $payloads = $this->connection->select(
             'SELECT payload FROM domain_messages WHERE aggregate_root_id = ? ORDER BY recorded_at ASC',
             [$id->toString()]
         );
