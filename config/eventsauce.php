@@ -27,11 +27,15 @@ return [
 
     /*
      * This class is responsible for dispatching jobs.
+     *
+     * It should implement \EventSauce\EventSourcing\MessageDispatcher
      */
     'dispatcher' => \EventSauce\LaravelEventSauce\LaravelMessageDispatcher::class,
 
     /*
      * This class is responsible for storing and retrieving events.
+     *
+     * It should implement \EventSauce\EventSourcing\MessageRepository
      */
     'repository' => \EventSauce\LaravelEventSauce\LaravelMessageRepository::class,
 ];
