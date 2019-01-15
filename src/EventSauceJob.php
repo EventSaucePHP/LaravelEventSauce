@@ -15,7 +15,7 @@ final class EventSauceJob implements ShouldQueue
     use InteractsWithQueue, Queueable;
 
     /**
-     * @var \EventSauce\EventSourcing\Message[]
+     * @var Message[]
      */
     private $messages = [];
 
