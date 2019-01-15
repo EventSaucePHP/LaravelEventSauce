@@ -1,6 +1,6 @@
 <?php
 
-namespace EventSauce\LaravelEventSauce;
+namespace EventSauce\LaravelEventSauce\Commands;
 
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\EventSourcing\CodeGeneration\DefinitionGroup;

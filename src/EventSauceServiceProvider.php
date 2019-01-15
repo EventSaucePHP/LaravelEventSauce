@@ -8,6 +8,7 @@ use EventSauce\EventSourcing\MessageDispatcherChain;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
+use EventSauce\LaravelEventSauce\Commands\GenerateCodeCommand;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
