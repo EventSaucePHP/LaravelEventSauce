@@ -11,6 +11,10 @@
         {
             "name": "Dries Vints",
             "email": "dries.vints@gmail.com"
+        },
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be"
         }
     ],
     "require": {
@@ -21,6 +25,10 @@
         "illuminate/queue": "^5.7",
         "illuminate/support": "^5.7",
         "ramsey/uuid": "^3.8"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "@stable",
+        "phpunit/phpunit": "^7.5"
     },
     "autoload": {
         "psr-4": {

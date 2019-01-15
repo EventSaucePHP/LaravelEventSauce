@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - 7.2
+  - 7.3
+
+cache:
+  directories:
+    - vendor
+
+sudo: false
+
+install:
+  - travis_retry composer install
+
+script:
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  - vendor/bin/phpstan analyze --level max -c phpstan.neon src
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
