@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) Dries Vints
+Copyright (c) Dries Vints  
 Copyright (c) Freek Murze
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
