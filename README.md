@@ -14,6 +14,12 @@ You can install the package via composer:
 composer require eventsauce/laravel-eventsauce
 ```
 
+Next you must publish the migration
+
+```bash
+
+```
+
 ## Usage
 
 ### Code generation

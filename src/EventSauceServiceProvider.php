@@ -39,7 +39,7 @@ final class EventSauceServiceProvider extends ServiceProvider
         );
 
         foreach (config('eventsauce.aggregate_roots') as $aggregateRootConfig) {
-            $this->app->bind($aggregateRootConfig['repository'], function (Container $app) use ($aggregateRootConfig) {
+            $this->app->bind($aggregateRootConfig['repository'], function () use ($aggregateRootConfig) {
                 return new ConstructingAggregateRootRepository(
                     $aggregateRootConfig['aggregate_root'],
                     app(config('eventsauce.repository')),
@@ -51,16 +51,16 @@ final class EventSauceServiceProvider extends ServiceProvider
             });
         }
 
-        $this->app->bind(SynchronousMessageDispatcher::class, function (Container $app) {
-            $consumers = array_map(function ($consumerName) use ($app) {
+        $this->app->bind(SynchronousMessageDispatcher::class, function () {
+            $consumers = array_map(function ($consumerName) {
                 return app($consumerName);
             }, data_get(config('eventsauce'), 'aggregate_roots.*.sync_consumers'));
 
             return new SynchronousMessageDispatcher(...$consumers);
         });
 
-        $this->app->bind('eventsauce.async_dispatcher', function (Container $app) {
-            $consumers = array_map(function ($consumerName) use ($app) {
+        $this->app->bind('eventsauce.async_dispatcher', function () {
+            $consumers = array_map(function ($consumerName) {
                 return app($consumerName);
             }, data_get(config('eventsauce'), 'aggregate_roots.*.async_consumers'));
 
