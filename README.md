@@ -4,7 +4,11 @@
 
 [![Build Status](https://travis-ci.org/EventSaucePHP/EventSauceLaravel.svg?branch=master)](https://travis-ci.org/EventSaucePHP/EventSauce)
 
-TODO
+EventSauce is a somewhat opinionated, no-nonsense, and easy way to introduce event sourcing into PHP projects. By default persistence, async messaging, ... is not included in the package.
+
+This package allows EventSauce to make use Laravel's persistence features, queues and running commands.
+
+If you want to use EventSauce in a Laravel app, this package is the way to go!
 
 ## Installation
 
