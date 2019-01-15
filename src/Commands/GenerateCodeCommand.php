@@ -5,6 +5,8 @@ namespace EventSauce\LaravelEventSauce\Commands;
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\EventSourcing\CodeGeneration\DefinitionGroup;
 use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
+use EventSauce\LaravelEventSauce\Exceptions\InvalidConfiguration;
+use http\Exception\InvalidArgumentException;
 use Illuminate\Console\Command;
 
 final class GenerateCodeCommand extends Command
@@ -28,6 +30,10 @@ final class GenerateCodeCommand extends Command
 
     private function generateCode(string $definitionFile, string $outputFile)
     {
+        if (! file_exists($definitionFile)) {
+            throw InvalidConfiguration::definitionFileDoesNotExist($definitionFile);
+        }
+
         $loader = new YamlDefinitionLoader();
         $dumper = new CodeDumper();
 
