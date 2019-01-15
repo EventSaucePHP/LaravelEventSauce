@@ -28,6 +28,7 @@
         "ramsey/uuid": "^3.8"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.14",
         "orchestra/testbench": "^3.7",
         "phpstan/phpstan": "@stable",
         "phpunit/phpunit": "^7.5"
@@ -51,5 +52,10 @@
                 "EventSauce\\LaravelEventSauce\\EventSauceServiceProvider"
             ]
         }
+    },
+    "scripts": {
+        "format": [
+            "vendor/bin/php-cs-fixer fix"
+        ]
     }
 }
