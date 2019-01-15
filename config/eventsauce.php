@@ -3,11 +3,30 @@
 return [
     'aggregate_roots' => [
          [
+             /*
+              * An aggregate root is an entity that is modelled using events.
+              *
+              * See: https://eventsauce.io/docs/getting-started/create-an-aggregate-root/
+              */
             'aggregate_root' => null,
+
+             /*
+              * TODO
+              */
             'repository' => null,
+
+
+             /*
+              * Consumers are classes that listen to events and do something with them, for
+              * example projecting data.
+              */
             'sync_consumers' => [
                 // ...
             ],
+
+             /*
+              * These consumers will be executing in a queued job.
+              */
             'async_consumers' => [
                 // ...
             ],
