@@ -11,7 +11,7 @@ TODO
 You can install the package via composer:
 
 ```bash
-composer require eventsauce/laravel-eventsauc
+composer require eventsauce/laravel-eventsauce
 ```
 
 ## Usage
