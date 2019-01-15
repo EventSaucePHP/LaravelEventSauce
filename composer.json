@@ -1,11 +1,12 @@
 {
+    "name": "eventsauce/laravel-eventsauce",
     "require": {
         "php": "^7.2",
-        "eventsauce/eventsauce": "^0.4.0",
-        "illuminate/bus": "^5.6",
-        "illuminate/container": "^5.6",
-        "illuminate/queue": "^5.6",
-        "illuminate/support": "^5.6",
+        "eventsauce/eventsauce": "^0.4.0|^0.5.0",
+        "illuminate/bus": "^5.6|^5.7",
+        "illuminate/container": "^5.6|^5.7",
+        "illuminate/queue": "^5.6|^5.7",
+        "illuminate/support": "^5.6|^5.7",
         "ramsey/uuid": "^3.8"
     },
     "autoload": {
@@ -14,8 +15,13 @@
         }
     },
     "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
         "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "EventSauce\\LaravelEventSauce\\EventSauceServiceProvider"
+            ]
+        }
     }
 }
