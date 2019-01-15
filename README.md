@@ -42,7 +42,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### Security
 
-If you discover any security related issues, please email info@frenky.net instead of using the issue tracker.
+If you discover any security related issues, please email dries.vints@gmail.com or freek@spatie.be instead of using the issue tracker.
 
 ## Credits
 
