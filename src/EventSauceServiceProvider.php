@@ -17,13 +17,11 @@ class EventSauceServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/eventsauce.php' => config_path('eventsauce.php'),
+                __DIR__.'/../config/eventsauce.php' => config_path('eventsauce.php'),
             ], 'config');
-        }
 
-        if (! class_exists('CreateDomainMessagesTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_domain_messages_table.php' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_domain_messages_table.php'),
+                __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'migrations');
         }
     }
