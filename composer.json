@@ -15,6 +15,7 @@
     ],
     "require": {
         "php": "^7.2",
+        "ext-json": "*",
         "eventsauce/eventsauce": "^0.5.0",
         "illuminate/bus": "^5.7",
         "illuminate/container": "^5.7",
