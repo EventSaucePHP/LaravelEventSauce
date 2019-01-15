@@ -57,7 +57,7 @@ php artisan eventsauce:generate-code
 ### Testing
 
 ``` bash
-./run-tests
+./run-tests.sh
 ```
 
 ### Changelog
