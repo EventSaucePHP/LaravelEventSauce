@@ -12,7 +12,7 @@ use EventSauce\LaravelEventSauce\Commands\GenerateCodeCommand;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
-class EventSauceServiceProvider extends ServiceProvider
+final class EventSauceServiceProvider extends ServiceProvider
 {
     public function boot()
     {
