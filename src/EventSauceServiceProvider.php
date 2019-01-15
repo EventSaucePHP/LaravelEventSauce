@@ -43,10 +43,10 @@ final class EventSauceServiceProvider extends ServiceProvider
             $this->app->bind($aggregateRootConfig['repository'], function (Container $app) use ($aggregateRootConfig) {
                 return new ConstructingAggregateRootRepository(
                     $aggregateRootConfig['aggregate_root'],
-                    $app->make(LaravelMessageRepository::class),
+                    app(LaravelMessageRepository::class),
                     new MessageDispatcherChain(
-                        $app->make(LaravelMessageDispatcher::class),
-                        $app->make(SynchronousMessageDispatcher::class)
+                        app(LaravelMessageDispatcher::class),
+                        app(SynchronousMessageDispatcher::class)
                     )
                 );
             });
@@ -54,7 +54,7 @@ final class EventSauceServiceProvider extends ServiceProvider
 
         $this->app->bind(SynchronousMessageDispatcher::class, function (Container $app) {
             $consumers = array_map(function ($consumerName) use ($app) {
-                return $app->make($consumerName);
+                return app($consumerName);
             }, data_get(config('eventsauce'), 'aggregate_roots.*.sync_consumers'));
 
             return new SynchronousMessageDispatcher(...$consumers);
@@ -62,7 +62,7 @@ final class EventSauceServiceProvider extends ServiceProvider
 
         $this->app->bind('eventsauce.async_dispatcher', function (Container $app) {
             $consumers = array_map(function ($consumerName) use ($app) {
-                return $app->make($consumerName);
+                return app($consumerName);
             }, data_get(config('eventsauce'), 'aggregate_roots.*.async_consumers'));
 
             return new SynchronousMessageDispatcher(...$consumers);
