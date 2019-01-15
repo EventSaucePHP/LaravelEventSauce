@@ -24,4 +24,14 @@ return [
             ],
         ],
     ],
+
+    /*
+     * This class is responsible for dispatching jobs.
+     */
+    'dispatcher' => \EventSauce\LaravelEventSauce\LaravelMessageDispatcher::class,
+
+    /*
+     * This class is responsible for storing and retrieving events.
+     */
+    'repository' => \EventSauce\LaravelEventSauce\LaravelMessageRepository::class,
 ];
