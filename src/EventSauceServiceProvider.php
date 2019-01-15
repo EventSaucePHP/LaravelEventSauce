@@ -43,9 +43,9 @@ final class EventSauceServiceProvider extends ServiceProvider
             $this->app->bind($aggregateRootConfig['repository'], function (Container $app) use ($aggregateRootConfig) {
                 return new ConstructingAggregateRootRepository(
                     $aggregateRootConfig['aggregate_root'],
-                    app(LaravelMessageRepository::class),
+                    app(config('eventsauce.repository')),
                     new MessageDispatcherChain(
-                        app(LaravelMessageDispatcher::class),
+                        app(config('eventsauce.dispatcher')),
                         app(SynchronousMessageDispatcher::class)
                     )
                 );
