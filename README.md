@@ -14,10 +14,28 @@ You can install the package via composer:
 composer require eventsauce/laravel-eventsauce
 ```
 
-Next you must publish the migration
+This package comes with a migration to store all events. You can publish the migration file using:
 
 ```bash
+php artisan vendor:publish --provider="EventSauce\LaravelEventSauce\EventSauceServiceProvider" --tag="migrations"
+```
 
+To create the `domain_messages` table, run the migrations
+
+```bash
+php artisan migrate
+```
+
+Next you must publish the `eventsauce` config file.
+
+```php
+php artisan vendor:publish --provider="EventSauce\LaravelEventSauce\EventSauceServiceProvider" --tag="config"
+```
+
+This is the contents of the file that will be publish to `config/eventsauce.php`
+
+```php
+//TODO: add content of config file
 ```
 
 ## Usage
