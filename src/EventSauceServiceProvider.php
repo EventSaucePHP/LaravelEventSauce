@@ -74,7 +74,7 @@ final class EventSauceServiceProvider extends ServiceProvider
         $this->app->bindMethod(EventSauceJob::class . '@handle', function (EventSauceJob $job, Container $container) {
             $dispatcher = $container->make('eventsauce.async_dispatcher');
 
-            return $job->handle($dispatcher);
+            $job->handle($dispatcher);
         });
     }
 
