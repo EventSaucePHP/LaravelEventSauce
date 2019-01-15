@@ -1,12 +1,25 @@
 {
     "name": "eventsauce/laravel-eventsauce",
+    "description": "Integration support of EventSauce for the Laravel framework",
+    "keywords": ["laravel", "event sourcing", "eventsauce"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/EventSaucePHP/LaravelEventSauce/issues",
+        "source": "https://github.com/EventSaucePHP/LaravelEventSauce"
+    },
+    "authors": [
+        {
+            "name": "Dries Vints",
+            "email": "dries.vints@gmail.com"
+        }
+    ],
     "require": {
         "php": "^7.2",
-        "eventsauce/eventsauce": "^0.4.0|^0.5.0",
-        "illuminate/bus": "^5.6|^5.7",
-        "illuminate/container": "^5.6|^5.7",
-        "illuminate/queue": "^5.6|^5.7",
-        "illuminate/support": "^5.6|^5.7",
+        "eventsauce/eventsauce": "^0.5.0",
+        "illuminate/bus": "^5.7",
+        "illuminate/container": "^5.7",
+        "illuminate/queue": "^5.7",
+        "illuminate/support": "^5.7",
         "ramsey/uuid": "^3.8"
     },
     "autoload": {
