@@ -11,8 +11,10 @@ return [
             'async_consumers' => [
                 // ...
             ],
-            'definition' => __DIR__.'/../app/CatShelter/Intake/commands-and-events.yml',
-            'output' => __DIR__.'/../app/CatShelter/Intake/commands-and-events.php',
+            'code_generation' => [
+                'definition_file' => __DIR__.'/../app/Domain/Account/commands-and-events.yml',
+                'output_to_file' => __DIR__.'/../app/Domain/Account/commands-and-events.php',
+            ],
         ],
     ],
 ];
