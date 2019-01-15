@@ -3,7 +3,7 @@
 return [
     'aggregate_roots' => [
          [
-            'class' => null,
+            'aggregate_root' => null,
             'repository' => null,
             'sync_consumers' => [
                 // ...
