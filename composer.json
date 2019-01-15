@@ -28,12 +28,18 @@
         "ramsey/uuid": "^3.8"
     },
     "require-dev": {
+        "orchestra/testbench": "^3.7",
         "phpstan/phpstan": "@stable",
         "phpunit/phpunit": "^7.5"
     },
     "autoload": {
         "psr-4": {
           "EventSauce\\LaravelEventSauce\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EventSauce\\LaravelEventSauce\\Tests\\": "tests"
         }
     },
     "config": {
