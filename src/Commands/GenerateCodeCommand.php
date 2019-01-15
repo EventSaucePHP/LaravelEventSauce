@@ -24,24 +24,24 @@ final class GenerateCodeCommand extends Command
         $codeGenerationConfig = data_get(config('eventsauce'), 'aggregate_roots.*.code_generation');
 
         collect($codeGenerationConfig)->each(function(array $config) {
-            $this->generateCode($config['definition_file'], $config['output_to_file']);
+            $this->generateCode($config['input_yaml_file'], $config['output_file']);
         });
 
         $this->info('All done!');
     }
 
-    private function generateCode(string $definitionFile, string $outputFile)
+    private function generateCode(string $inputFile, string $outputFile)
     {
-        if (! file_exists($definitionFile)) {
-            throw InvalidConfiguration::definitionFileDoesNotExist($definitionFile);
+        if (! file_exists($inputFile)) {
+            throw InvalidConfiguration::definitionFileDoesNotExist($inputFile);
         }
 
         $loader = new YamlDefinitionLoader();
         $dumper = new CodeDumper();
 
-        $loadedDefinitionFile = $loader->load($definitionFile);
+        $loadedYamlContent = $loader->load($inputFile);
 
-        $phpCode = $dumper->dump($loadedDefinitionFile);
+        $phpCode = $dumper->dump($loadedYamlContent);
 
         file_put_contents($outputFile, $phpCode);
 
