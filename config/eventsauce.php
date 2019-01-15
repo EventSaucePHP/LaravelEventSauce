@@ -2,7 +2,7 @@
 
 return [
     'aggregate_roots' => [
-        'aggregate_root' => [
+         [
             'class' => null,
             'repository' => null,
             'sync_consumers' => [
