@@ -39,7 +39,7 @@ final class EventSauceServiceProvider extends ServiceProvider
             __DIR__ . '/../config/eventsauce.php', 'eventsauce'
         );
 
-        foreach ($this->app['config']->get('aggregate_roots') as $aggregateRootConfig) {
+        foreach (config('eventsauce.aggregate_roots') as $aggregateRootConfig) {
             $this->app->bind($aggregateRootConfig['repository'], function (Container $app) use ($aggregateRootConfig) {
                 return new ConstructingAggregateRootRepository(
                     $aggregateRootConfig['class'],
