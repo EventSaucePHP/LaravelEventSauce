@@ -31,7 +31,7 @@ final class LaravelMessageRepository implements MessageRepository
         $this->connection = $connection;
     }
 
-    public function persist(Message ... $messages)
+    public function persist(Message ...$messages)
     {
         foreach ($messages as $message) {
             $serialized = $this->serializer->serializeMessage($message);
@@ -42,11 +42,11 @@ final class LaravelMessageRepository implements MessageRepository
             $recordedAt = $serialized['headers'][Header::TIME_OF_RECORDING];
             $aggregateRootId = $serialized['headers'][Header::AGGREGATE_ROOT_ID] ?? null;
 
-            $this->connection->insert("
+            $this->connection->insert('
               INSERT INTO domain_messages
               (event_id, event_type, aggregate_root_id, recorded_at, payload)
               VALUES (?, ?, ?, ?, ?)
-            ", [$eventId, $type, $aggregateRootId, $recordedAt, $payload]);
+            ', [$eventId, $type, $aggregateRootId, $recordedAt, $payload]);
         }
     }
 

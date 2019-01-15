@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace EventSauce\LaravelEventSauce\Commands;
 
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
-use EventSauce\EventSourcing\CodeGeneration\DefinitionGroup;
 use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
 use EventSauce\LaravelEventSauce\Exceptions\InvalidConfiguration;
-use http\Exception\InvalidArgumentException;
 use Illuminate\Console\Command;
 
 final class GenerateCodeCommand extends Command
 {
     protected $signature = 'eventsauce:generate-code';
-    
+
     protected $description = 'Generate EventSauce code.';
 
     public function handle()
@@ -23,7 +21,7 @@ final class GenerateCodeCommand extends Command
 
         $codeGenerationConfig = data_get(config('eventsauce'), 'aggregate_roots.*.code_generation');
 
-        collect($codeGenerationConfig)->each(function(array $config) {
+        collect($codeGenerationConfig)->each(function (array $config) {
             $this->generateCode($config['input_yaml_file'], $config['output_file']);
         });
 
@@ -32,7 +30,7 @@ final class GenerateCodeCommand extends Command
 
     private function generateCode(string $inputFile, string $outputFile)
     {
-        if (! file_exists($inputFile)) {
+        if ( ! file_exists($inputFile)) {
             throw InvalidConfiguration::definitionFileDoesNotExist($inputFile);
         }
 
