@@ -10,7 +10,7 @@ use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use EventSauce\LaravelEventSauce\Commands\GenerateCodeCommand;
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
 final class EventSauceServiceProvider extends ServiceProvider
@@ -36,36 +36,23 @@ final class EventSauceServiceProvider extends ServiceProvider
             GenerateCodeCommand::class,
         ]);
 
-        $this->registerAggregateRoots();
         $this->registerSynchronousDispatcher();
         $this->registerAsyncDispatcher();
+        $this->registerMessageDispatcherChain();
+        $this->registerAggregateRoots();
         $this->registerMessageSerializer();
 
         $this->bindAsyncDispatcherToJob();
     }
 
-    private function registerAggregateRoots(): void
-    {
-        foreach (config('eventsauce.aggregate_roots') as $aggregateRootConfig) {
-            $this->app->bind($aggregateRootConfig['repository'], function () use ($aggregateRootConfig) {
-                return new ConstructingAggregateRootRepository(
-                    $aggregateRootConfig['aggregate_root'],
-                    app(config('eventsauce.repository')),
-                    new MessageDispatcherChain(
-                        app(config('eventsauce.dispatcher')),
-                        app(SynchronousMessageDispatcher::class)
-                    )
-                );
-            });
-        }
-    }
-
     private function registerSynchronousDispatcher(): void
     {
-        $this->app->bind(SynchronousMessageDispatcher::class, function () {
-            $consumers = array_map(function ($consumerName) {
-                return app($consumerName);
-            }, $this->getConfigForAllAggregateRoots('sync_consumers'));
+        $this->app->bind(SynchronousMessageDispatcher::class, function (Container $container) {
+            $config = $container->make('config')->get('eventsauce');
+
+            $consumers = array_map(function ($consumerName) use ($container) {
+                return $container->make($consumerName);
+            }, $this->getConfigForAllAggregateRoots($config, 'sync_consumers'));
 
             return new SynchronousMessageDispatcher(...$consumers);
         });
@@ -73,20 +60,52 @@ final class EventSauceServiceProvider extends ServiceProvider
 
     private function registerAsyncDispatcher(): void
     {
-        $this->app->bind('eventsauce.async_dispatcher', function () {
-            $consumers = array_map(function ($consumerName) {
-                return app($consumerName);
-            }, $this->getConfigForAllAggregateRoots('async_consumers'));
+        $this->app->bind('eventsauce.async_dispatcher', function (Container $container) {
+            $config = $container->make('config')->get('eventsauce');
+
+            $consumers = array_map(function ($consumerName) use ($container) {
+                return $container->make($consumerName);
+            }, $this->getConfigForAllAggregateRoots($config, 'async_consumers'));
 
             return new SynchronousMessageDispatcher(...$consumers);
         });
     }
 
-    private function getConfigForAllAggregateRoots(string $key): array
+    private function getConfigForAllAggregateRoots(array $config, string $key): array
     {
-        $result = data_get(config('eventsauce'), "aggregate_roots.*.{$key}");
+        $result = data_get($config, "aggregate_roots.*.{$key}");
 
         return array_flatten($result);
+    }
+
+    private function registerMessageDispatcherChain(): void
+    {
+        $this->app->bind(MessageDispatcherChain::class, function (Container $container)  {
+            $dispatcher = $container->make('config')->get('eventsauce.dispatcher');
+
+            return new MessageDispatcherChain(
+                $container->make($dispatcher),
+                $container->make(SynchronousMessageDispatcher::class)
+            );
+        });
+    }
+
+    private function registerAggregateRoots(): void
+    {
+        $config = $this->app->make('config')->get('eventsauce');
+
+        foreach ($config['aggregate_roots'] as $aggregateRootConfig) {
+            $this->app->bind(
+                $aggregateRootConfig['repository'],
+                function (Container $container) use ($aggregateRootConfig, $config) {
+                    return new ConstructingAggregateRootRepository(
+                        $aggregateRootConfig['aggregate_root'],
+                        $container->make($config['repository']),
+                        $container->make(MessageDispatcherChain::class)
+                    );
+                }
+            );
+        }
     }
 
     private function registerMessageSerializer(): void
