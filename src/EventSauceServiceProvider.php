@@ -51,10 +51,12 @@ final class EventSauceServiceProvider extends ServiceProvider
             });
         }
 
+
+
         $this->app->bind(SynchronousMessageDispatcher::class, function () {
             $consumers = array_map(function ($consumerName) {
                 return app($consumerName);
-            }, data_get(config('eventsauce'), 'aggregate_roots.*.sync_consumers'));
+            }, $this->getConfigForAllAggregateRoots('sync_consumers'));
 
             return new SynchronousMessageDispatcher(...$consumers);
         });
@@ -62,7 +64,7 @@ final class EventSauceServiceProvider extends ServiceProvider
         $this->app->bind('eventsauce.async_dispatcher', function () {
             $consumers = array_map(function ($consumerName) {
                 return app($consumerName);
-            }, data_get(config('eventsauce'), 'aggregate_roots.*.async_consumers'));
+            }, $this->getConfigForAllAggregateRoots('async_consumers'));
 
             return new SynchronousMessageDispatcher(...$consumers);
         });
@@ -83,5 +85,12 @@ final class EventSauceServiceProvider extends ServiceProvider
         return [
             GenerateCodeCommand::class,
         ];
+    }
+
+    protected function getConfigForAllAggregateRoots(string $key): array
+    {
+        $result = data_get(config('eventsauce'), "aggregate_roots.*.{$key}");
+
+        return array_flatten($result);
     }
 }
