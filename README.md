@@ -51,7 +51,7 @@ We can generate types, events and commands from you starting from a yaml file. Y
 To generate code, fill in the keys in the `code_generation` parts of the `eventsauce` config file and execute this command
 
 ```
-php artisan eventsauce:generate-code
+php artisan eventsauce:generate
 ```
 
 ### Testing

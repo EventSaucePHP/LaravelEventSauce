@@ -11,7 +11,7 @@ use Illuminate\Console\Command;
 
 final class GenerateCodeCommand extends Command
 {
-    protected $signature = 'eventsauce:generate-code';
+    protected $signature = 'eventsauce:generate';
 
     protected $description = 'Generate EventSauce code.';
 
