@@ -15,7 +15,6 @@ return [
              */
             'repository' => null,
 
-
             /*
              * Consumers are classes that listen to events and do something with them, for
              * example projecting data.

@@ -1,6 +1,6 @@
 {
     "name": "eventsauce/laravel-eventsauce",
-    "description": "Integration support of EventSauce for the Laravel framework",
+    "description": "Integration support for EventSauce with the Laravel framework.",
     "keywords": ["laravel", "event sourcing", "eventsauce"],
     "license": "MIT",
     "support": {
@@ -28,14 +28,12 @@
         "ramsey/uuid": "^3.8"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.14",
         "orchestra/testbench": "^3.7",
-        "phpstan/phpstan": "@stable",
         "phpunit/phpunit": "^7.5"
     },
     "autoload": {
         "psr-4": {
-          "EventSauce\\LaravelEventSauce\\": "src/"
+            "EventSauce\\LaravelEventSauce\\": "src/"
         }
     },
     "autoload-dev": {
@@ -52,10 +50,5 @@
                 "EventSauce\\LaravelEventSauce\\EventSauceServiceProvider"
             ]
         }
-    },
-    "scripts": {
-        "format": [
-            "vendor/bin/php-cs-fixer fix"
-        ]
     }
 }
