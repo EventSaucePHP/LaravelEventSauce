@@ -1,12 +1,12 @@
-<p align="center">
+<p>
     <img src="https://eventsauce.io/static/logo.svg" height="120px" width="120px">
 </p>
 
-<h1 align="center">
+<h1>
     Laravel EventSauce
 </h1>
 
-<p align="center">
+<p>
     <a href="https://packagist.org/packages/spatie/laravel-eventsauce">
         <img src="https://img.shields.io/packagist/v/EventSaucePHP/LaravelEventSauce.svg" alt="Packagist Version">
     </a>
@@ -18,10 +18,8 @@
     </a>
 </p>
 
-## Introduction
-
 This library is a work in progress...
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [the License File](LICENSE.md) for more information.
