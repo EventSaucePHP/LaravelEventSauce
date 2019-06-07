@@ -5,13 +5,13 @@
 # Laravel EventSauce
 
 <p>
-    <a href="https://packagist.org/packages/spatie/laravel-eventsauce">
+    <a href="https://packagist.org/packages/EventSaucePHP/LaravelEventSauce">
         <img src="https://img.shields.io/packagist/v/EventSaucePHP/LaravelEventSauce.svg" alt="Packagist Version">
     </a>
     <a href="https://travis-ci.org/EventSaucePHP/LaravelEventSauce.svg?branch=master">
         <img src="https://travis-ci.org/EventSaucePHP/LaravelEventSauce.svg?branch=master" alt="Travis">
     </a>
-    <a href="https://packagist.org/packages/spatie/laravel-eventsauce">
+    <a href="https://packagist.org/packages/EventSaucePHP/LaravelEventSauce">
         <img src="https://img.shields.io/packagist/dt/EventSaucePHP/LaravelEventSauce-eventsauce.svg" alt="Downloads">
     </a>
 </p>
