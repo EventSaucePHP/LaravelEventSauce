@@ -1,4 +1,3 @@
-
 <p>
     <img src="https://eventsauce.io/static/logo.svg" height="120px" width="120px">
 </p>
