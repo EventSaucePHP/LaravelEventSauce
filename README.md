@@ -1,8 +1,21 @@
-# Laravel EventSauce
+<h1 align="center">
+    <img src="https://eventsauce.io/static/logo.svg" height="120px" width="120px"><br>
+    Laravel EventSauce
+</h1>
 
-<img src="https://eventsauce.io/static/logo.svg" height="150px" width="150px">
+<p align="center">
+    <a href="https://packagist.org/packages/spatie/laravel-eventsauce">
+        <img src="https://img.shields.io/packagist/v/EventSaucePHP/LaravelEventSauce.svg" alt="Packagist Version">
+    </a>
+    <a href="https://travis-ci.org/EventSaucePHP/LaravelEventSauce.svg?branch=master">
+        <img src="https://travis-ci.org/EventSaucePHP/LaravelEventSauce.svg?branch=master" alt="Travis">
+    </a>
+    <a href="https://packagist.org/packages/spatie/laravel-eventsauce">
+        <img src="https://img.shields.io/packagist/dt/EventSaucePHP/LaravelEventSauce-eventsauce.svg" alt="Downloads">
+    </a>
+</p>
 
-[![Build Status](https://travis-ci.org/EventSaucePHP/LaravelEventSauce.svg?branch=master)](https://travis-ci.org/EventSaucePHP/LaravelEventSauce)
+> ⚠️ This library is a work in progress...
 
 ## License
 
