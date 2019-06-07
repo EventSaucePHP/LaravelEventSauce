@@ -1,11 +1,8 @@
-
-<p align="center">
+<p>
     <img src="https://eventsauce.io/static/logo.svg" height="120px" width="120px">
 </p>
 
-<h1>
-    Laravel EventSauce
-</h1>
+# Laravel EventSauce
 
 <p>
     <a href="https://packagist.org/packages/spatie/laravel-eventsauce">
