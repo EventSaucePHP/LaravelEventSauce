@@ -15,7 +15,9 @@
     </a>
 </p>
 
-> ⚠️ This library is a work in progress...
+## Introduction
+
+⚠️ This library is a work in progress...
 
 ## License
 
