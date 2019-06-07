@@ -1,5 +1,8 @@
+<p align="center">
+    <img src="https://eventsauce.io/static/logo.svg" height="120px" width="120px">
+</p>
+
 <h1 align="center">
-    <img src="https://eventsauce.io/static/logo.svg" height="120px" width="120px"><br>
     Laravel EventSauce
 </h1>
 
@@ -17,7 +20,7 @@
 
 ## Introduction
 
-⚠️ This library is a work in progress...
+This library is a work in progress...
 
 ## License
 
