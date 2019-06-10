@@ -9,7 +9,7 @@ final class CreateDomainMessagesTable extends Migration
     public function up()
     {
         Schema::create('domain_messages', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('event_id', 36);
             $table->string('event_type', 100);
             $table->string('aggregate_root_id', 36)->nullable()->index();
