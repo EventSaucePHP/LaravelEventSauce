@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce;
 
-use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\MessageDispatcherChain;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;

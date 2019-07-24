@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use EventSauce\EventSourcing\DefaultHeadersDecorator;
-use EventSauce\EventSourcing\Message;
 use EventSauce\LaravelEventSauce\LaravelMessageRepository;
 use Tests\Fixtures\RegisterUser;
 use Tests\Fixtures\RegistrationAggregateRootId;
@@ -57,16 +55,6 @@ class LaravelMessageRepositoryTest extends TestCase
         foreach ($this->repository->retrieveAll($aggregateRootId) as $message) {
             $this->assertInstanceOf(UserWasRegistered::class, $message->event());
         }
-    }
-
-    private function buildUserWasRegisteredMessage(): Message
-    {
-        $decorator = new DefaultHeadersDecorator();
-        $message = new Message(
-            new UserWasRegistered('Dries Vints', 'dries.vints@gmail.com')
-        );
-
-        return $decorator->decorate($message);
     }
 
     private function registerUser(RegistrationAggregateRootId $aggregateRootId): void
