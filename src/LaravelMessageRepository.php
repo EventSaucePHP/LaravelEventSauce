@@ -10,19 +10,15 @@ use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Generator;
-use Illuminate\Database\Connection;
+use Illuminate\Database\ConnectionInterface as Connection;
 use Ramsey\Uuid\Uuid;
 
 final class LaravelMessageRepository implements MessageRepository
 {
-    /**
-     * @var Connection
-     */
+    /** @var Connection */
     private $connection;
 
-    /**
-     * @var MessageSerializer
-     */
+    /** @var MessageSerializer */
     private $serializer;
 
     public function __construct(Connection $connection, MessageSerializer $serializer)

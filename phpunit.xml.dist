@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true" bootstrap="vendor/autoload.php">
     <testsuites>
-        <testsuite name="EventSauce">
-            <directory suffix="Test.php">src/</directory>
+        <testsuite name="Package Test Suite">
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>./src/</directory>
-            <exclude>
-                <directory suffix="Test.php">src/</directory>
-                <directory suffix="Fixture.php">src/</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+    <php>
+        <env name="DB_CONNECTION" value="testing"/>
+    </php>
 </phpunit>

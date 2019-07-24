@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EventSauce\LaravelEventSauce\Tests;
+namespace Tests;
 
 use EventSauce\LaravelEventSauce\EventSauceServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;

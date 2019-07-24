@@ -14,9 +14,7 @@ final class EventSauceJob implements ShouldQueue
 {
     use InteractsWithQueue, Queueable;
 
-    /**
-     * @var Message[]
-     */
+    /** @var Message[] */
     private $messages = [];
 
     public function __construct(Message ...$messages)

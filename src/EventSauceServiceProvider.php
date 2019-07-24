@@ -17,6 +17,8 @@ final class EventSauceServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/eventsauce.php' => config_path('eventsauce.php'),
@@ -39,7 +41,6 @@ final class EventSauceServiceProvider extends ServiceProvider
         $this->registerSynchronousDispatcher();
         $this->registerAsyncDispatcher();
         $this->registerMessageDispatcherChain();
-        $this->registerAggregateRoots();
         $this->registerMessageSerializer();
 
         $this->bindAsyncDispatcherToJob();
@@ -88,24 +89,6 @@ final class EventSauceServiceProvider extends ServiceProvider
                 $container->make(SynchronousMessageDispatcher::class)
             );
         });
-    }
-
-    private function registerAggregateRoots(): void
-    {
-        $config = $this->app->make('config')->get('eventsauce');
-
-        foreach ($config['aggregate_roots'] as $aggregateRootConfig) {
-            $this->app->bind(
-                $aggregateRootConfig['repository'],
-                function (Container $container) use ($aggregateRootConfig, $config) {
-                    return new ConstructingAggregateRootRepository(
-                        $aggregateRootConfig['aggregate_root'],
-                        $container->make($config['repository']),
-                        $container->make(MessageDispatcherChain::class)
-                    );
-                }
-            );
-        }
     }
 
     private function registerMessageSerializer(): void
