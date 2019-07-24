@@ -28,8 +28,8 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var string|null */
     protected $connection;
 
-    /** @var string|null */
-    protected $table;
+    /** @var string */
+    protected $table = 'domain_messages';
 
     /** @var MessageSerializer */
     private $messageSerializer;
@@ -73,7 +73,8 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     {
         return new LaravelMessageRepository(
             $this->connection(),
-            $this->messageSerializer
+            $this->messageSerializer,
+            $this->table
         );
     }
 

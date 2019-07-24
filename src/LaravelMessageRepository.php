@@ -21,10 +21,17 @@ final class LaravelMessageRepository implements MessageRepository
     /** @var MessageSerializer */
     private $serializer;
 
-    public function __construct(Connection $connection, MessageSerializer $serializer)
-    {
+    /** @var string */
+    private $table;
+
+    public function __construct(
+        Connection $connection,
+        MessageSerializer $serializer,
+        string $table = 'domain_messages'
+    ) {
         $this->serializer = $serializer;
         $this->connection = $connection;
+        $this->table = $table;
     }
 
     public function persist(Message ...$messages)
@@ -32,26 +39,22 @@ final class LaravelMessageRepository implements MessageRepository
         foreach ($messages as $message) {
             $serialized = $this->serializer->serializeMessage($message);
 
-            $eventId = $serialized['headers'][Header::EVENT_ID] ?? Uuid::uuid4()->toString();
-            $type = $serialized['headers'][Header::EVENT_TYPE];
-            $payload = json_encode($serialized);
-            $recordedAt = $serialized['headers'][Header::TIME_OF_RECORDING];
-            $aggregateRootId = $serialized['headers'][Header::AGGREGATE_ROOT_ID] ?? null;
-
-            $this->connection->insert('
-              INSERT INTO domain_messages
-              (event_id, event_type, aggregate_root_id, recorded_at, payload)
-              VALUES (?, ?, ?, ?, ?)
-            ', [$eventId, $type, $aggregateRootId, $recordedAt, $payload]);
+            $this->connection->table($this->table)->insert([
+                'event_id' => $serialized['headers'][Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
+                'event_type' => $serialized['headers'][Header::EVENT_TYPE],
+                'aggregate_root_id' => $serialized['headers'][Header::AGGREGATE_ROOT_ID] ?? null,
+                'recorded_at' => $serialized['headers'][Header::TIME_OF_RECORDING],
+                'payload' => json_encode($serialized),
+            ]);
         }
     }
 
     public function retrieveAll(AggregateRootId $id): Generator
     {
-        $payloads = $this->connection->select(
-            'SELECT payload FROM domain_messages WHERE aggregate_root_id = ? ORDER BY recorded_at ASC',
-            [$id->toString()]
-        );
+        $payloads = $this->connection->table($this->table)
+            ->where('aggregate_root_id', $id->toString())
+            ->orderBy('recorded_at')
+            ->get('payload');
 
         foreach ($payloads as $payload) {
             yield from $this->serializer->unserializePayload(json_decode($payload->payload, true));
