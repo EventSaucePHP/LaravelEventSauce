@@ -36,18 +36,17 @@ final class LaravelMessageRepository implements MessageRepository
 
     public function persist(Message ...$messages)
     {
-        collect($messages)
-            ->map(function (Message $message) {
-                return $this->serializer->serializeMessage($message);
-            })->each(function (array $message) {
-                $this->connection->table($this->table)->insert([
-                    'event_id' => $message['headers'][Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
-                    'event_type' => $message['headers'][Header::EVENT_TYPE],
-                    'aggregate_root_id' => $message['headers'][Header::AGGREGATE_ROOT_ID] ?? null,
-                    'recorded_at' => $message['headers'][Header::TIME_OF_RECORDING],
-                    'payload' => json_encode($message),
-                ]);
-            });
+        collect($messages)->map(function (Message $message) {
+            return $this->serializer->serializeMessage($message);
+        })->each(function (array $message) {
+            $this->connection->table($this->table)->insert([
+                'event_id' => $message['headers'][Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
+                'event_type' => $message['headers'][Header::EVENT_TYPE],
+                'aggregate_root_id' => $message['headers'][Header::AGGREGATE_ROOT_ID] ?? null,
+                'recorded_at' => $message['headers'][Header::TIME_OF_RECORDING],
+                'payload' => json_encode($message),
+            ]);
+        });
     }
 
     public function retrieveAll(AggregateRootId $id): Generator
