@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Tests\Fixtures;
 
 use DomainException;
-use EventSauce\LaravelEventSauce\AggregateRoot;
+use EventSauce\EventSourcing\AggregateRoot;
+use EventSauce\EventSourcing\AggregateRootBehaviour;
 
-final class RegistrationAggregateRoot extends AggregateRoot
+final class RegistrationAggregateRoot implements AggregateRoot
 {
+    use AggregateRootBehaviour;
+
     /** @var array */
     private $registered = [];
 

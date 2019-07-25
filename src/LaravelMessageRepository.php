@@ -29,8 +29,8 @@ final class LaravelMessageRepository implements MessageRepository
         MessageSerializer $serializer,
         string $table = 'domain_messages'
     ) {
-        $this->serializer = $serializer;
         $this->connection = $connection;
+        $this->serializer = $serializer;
         $this->table = $table;
     }
 
@@ -39,11 +39,13 @@ final class LaravelMessageRepository implements MessageRepository
         collect($messages)->map(function (Message $message) {
             return $this->serializer->serializeMessage($message);
         })->each(function (array $message) {
+            $headers = $message['headers'];
+
             $this->connection->table($this->table)->insert([
-                'event_id' => $message['headers'][Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
-                'event_type' => $message['headers'][Header::EVENT_TYPE],
-                'aggregate_root_id' => $message['headers'][Header::AGGREGATE_ROOT_ID] ?? null,
-                'recorded_at' => $message['headers'][Header::TIME_OF_RECORDING],
+                'event_id' => $headers[Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
+                'event_type' => $headers[Header::EVENT_TYPE],
+                'aggregate_root_id' => $headers[Header::AGGREGATE_ROOT_ID] ?? null,
+                'recorded_at' => $headers[Header::TIME_OF_RECORDING],
                 'payload' => json_encode($message),
             ]);
         });
