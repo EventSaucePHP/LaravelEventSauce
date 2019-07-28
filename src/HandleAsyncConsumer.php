@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce;
 
+use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use Illuminate\Bus\Queueable;
@@ -29,9 +30,14 @@ final class HandleAsyncConsumer implements ShouldQueue
 
     public function handle(Container $container): void
     {
-        $consumer = $container->make($this->consumer);
+        $consumer = $this->resolveConsumer($container);
 
         (new SynchronousMessageDispatcher($consumer))
             ->dispatch(...$this->messages);
+    }
+
+    private function resolveConsumer(Container $container): Consumer
+    {
+        return $container->make($this->consumer);
     }
 }
