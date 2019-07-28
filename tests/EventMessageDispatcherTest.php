@@ -11,7 +11,7 @@ class EventMessageDispatcherTest extends TestCase
     /** @test */
     public function it_can_dispatch_messages()
     {
-        $message = $this->buildUserWasRegisteredMessage();
+        $message = $this->getUserWasRegisteredMessage();
 
         Event::fake();
 

@@ -12,7 +12,7 @@ class AsynchronousMessageDispatcherTest extends TestCase
     /** @test */
     public function it_can_dispatch_messages()
     {
-        $message = $this->buildUserWasRegisteredMessage();
+        $message = $this->getUserWasRegisteredMessage();
 
         Bus::fake();
 

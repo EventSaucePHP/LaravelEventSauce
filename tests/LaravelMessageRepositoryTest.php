@@ -35,7 +35,7 @@ class LaravelMessageRepositoryTest extends TestCase
     /** @test */
     public function it_can_persists_messages()
     {
-        $message = $this->buildUserWasRegisteredMessage();
+        $message = $this->getUserWasRegisteredMessage();
 
         $this->repository->persist($message);
 

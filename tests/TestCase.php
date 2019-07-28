@@ -17,13 +17,11 @@ abstract class TestCase extends Orchestra
         return [EventSauceServiceProvider::class];
     }
 
-    protected function buildUserWasRegisteredMessage(): Message
+    protected function getUserWasRegisteredMessage(): Message
     {
-        $decorator = new DefaultHeadersDecorator();
-        $message = new Message(
-            new UserWasRegistered('Dries Vints', 'dries.vints@gmail.com')
-        );
+        $event = new UserWasRegistered('Dries Vints', 'dries.vints@gmail.com');
 
-        return $decorator->decorate($message);
+        return (new DefaultHeadersDecorator())
+            ->decorate(new Message($event));
     }
 }
