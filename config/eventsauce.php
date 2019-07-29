@@ -4,7 +4,7 @@ return [
 
     /*
      * The default database connection name, used to store messages.
-     * When null is provided it'll use the default app connection.
+     * When null is provided it'll use the default application connection.
      */
     'connection' => env('EVENTSAUCE_CONNECTION'),
 
