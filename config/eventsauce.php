@@ -9,6 +9,11 @@ return [
     'connection' => env('EVENTSAUCE_CONNECTION'),
 
     /*
+     * The default database table name, used to store messages.
+     */
+    'table' => env('EVENTSAUCE_TABLE', 'domain_messages'),
+
+    /*
      * We can generate  types, commands and events for you starting from a yaml file.
      * Here you can specify the input and the output.
      *

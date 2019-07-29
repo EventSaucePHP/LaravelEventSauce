@@ -10,6 +10,7 @@ use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Generator;
+use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\DatabaseManager;
 use Ramsey\Uuid\Uuid;
@@ -26,12 +27,14 @@ final class LaravelMessageRepository implements MessageRepository
     private $connection;
 
     /** @var string */
-    private $table = 'domain_messages';
+    private $table;
 
-    public function __construct(DatabaseManager $database, MessageSerializer $serializer)
+    public function __construct(DatabaseManager $database, MessageSerializer $serializer, Config $config)
     {
         $this->database = $database;
         $this->serializer = $serializer;
+        $this->connection = $config->get('eventsauce.connection');
+        $this->table = $config->get('eventsauce.table');
     }
 
     public function persist(Message ...$messages)
@@ -70,7 +73,7 @@ final class LaravelMessageRepository implements MessageRepository
         return $this->database->connection($this->connection);
     }
 
-    public function setConnection(?string $connection): void
+    public function setConnection(string $connection): void
     {
         $this->connection = $connection;
     }

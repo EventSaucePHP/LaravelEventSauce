@@ -44,7 +44,10 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         $this->messageRepository = $messageRepository;
         $this->container = $container;
 
-        $this->messageRepository->setConnection($this->connection);
+        if ($this->connection) {
+            $this->messageRepository->setConnection($this->connection);
+        }
+
         $this->messageRepository->setTable($this->table);
     }
 
