@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EventSauce\LaravelEventSauce\Commands;
+namespace EventSauce\LaravelEventSauce\Console;
 
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;

@@ -7,17 +7,16 @@ namespace Tests\Fixtures;
 use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\Message;
 
-final class UpdateUsersTable implements Consumer
+final class SendConfirmationNotification implements Consumer
 {
     public function handle(Message $message)
     {
         $event = $message->event();
 
         if ($event instanceof UserWasRegistered) {
-            User::create([
-                'name' => $event->name(),
-                'email' => $event->email(),
-            ]);
+            User::where('email', $event->email())
+                ->first()
+                ->notify(new NewUserNotification());
         }
     }
 }

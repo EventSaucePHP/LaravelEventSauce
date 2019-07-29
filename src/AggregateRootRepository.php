@@ -8,27 +8,17 @@ use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\MessageDispatcherChain;
-use EventSauce\EventSourcing\MessageRepository;
-use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Database\DatabaseManager;
 use LogicException;
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
+    /** @var LaravelMessageRepository */
+    private $messageRepository;
+
     /** @var Container */
     private $container;
-
-    /** @var DatabaseManager */
-    private $database;
-
-    /** @var MessageSerializer */
-    private $messageSerializer;
-
-    /** @var EventSauceAggregateRootRepository */
-    private $repository;
 
     /** @var string */
     protected $aggregateRoot;
@@ -45,41 +35,39 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var string */
     protected $table = 'domain_messages';
 
-    public function __construct(
-        Container $container,
-        DatabaseManager $database,
-        MessageSerializer $messageSerializer
-    ) {
+    public function __construct(LaravelMessageRepository $messageRepository, Container $container)
+    {
         if ($this->aggregateRoot === null) {
             throw new LogicException("You have to set an aggregate root before the repository can be initialized.");
         }
 
+        $this->messageRepository = $messageRepository;
         $this->container = $container;
-        $this->database = $database;
-        $this->messageSerializer = $messageSerializer;
-        $this->repository = $this->buildRepository();
+
+        $this->messageRepository->setConnection($this->connection);
+        $this->messageRepository->setTable($this->table);
     }
 
     public function retrieve(AggregateRootId $aggregateRootId): object
     {
-        return $this->repository->retrieve($aggregateRootId);
+        return $this->repository()->retrieve($aggregateRootId);
     }
 
     public function persist(object $aggregateRoot)
     {
-        $this->repository->persist($aggregateRoot);
+        $this->repository()->persist($aggregateRoot);
     }
 
     public function persistEvents(AggregateRootId $aggregateRootId, int $aggregateRootVersion, object ...$events)
     {
-        $this->repository->persistEvents($aggregateRootId, $aggregateRootVersion, ...$events);
+        $this->repository()->persistEvents($aggregateRootId, $aggregateRootVersion, ...$events);
     }
 
-    private function buildRepository(): EventSauceAggregateRootRepository
+    private function repository(): EventSauceAggregateRootRepository
     {
         return new ConstructingAggregateRootRepository(
             $this->aggregateRoot,
-            $this->messageRepository(),
+            $this->messageRepository,
             new MessageDispatcherChain(
                 new SynchronousMessageDispatcher(
                     ...$this->resolveConsumers($this->syncConsumers)
@@ -92,21 +80,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         );
     }
 
-    private function messageRepository(): MessageRepository
-    {
-        return new LaravelMessageRepository(
-            $this->connection(),
-            $this->messageSerializer,
-            $this->table
-        );
-    }
-
-    private function connection(): ConnectionInterface
-    {
-        return $this->database->connection($this->connection);
-    }
-
-    private function resolveConsumers(array $consumers)
+    private function resolveConsumers(array $consumers): array
     {
         return array_map(function (string $consumer) {
             return $this->container->make($consumer);

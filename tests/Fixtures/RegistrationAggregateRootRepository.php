@@ -18,6 +18,6 @@ final class RegistrationAggregateRootRepository extends AggregateRootRepository
 
     /** @var array */
     protected $asyncConsumers = [
-        SendConfirmationEmail::class,
+        SendConfirmationNotification::class,
     ];
 }

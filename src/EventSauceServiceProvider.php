@@ -6,7 +6,7 @@ namespace EventSauce\LaravelEventSauce;
 
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
-use EventSauce\LaravelEventSauce\Commands\GenerateCodeCommand;
+use EventSauce\LaravelEventSauce\Console\GenerateCodeCommand;
 use Illuminate\Support\ServiceProvider;
 
 final class EventSauceServiceProvider extends ServiceProvider

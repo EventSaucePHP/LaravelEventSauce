@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use EventSauce\LaravelEventSauce\LaravelMessageRepository;
-use Tests\Fixtures\RegisterUser;
 use Tests\Fixtures\RegistrationAggregateRootId;
-use Tests\Fixtures\RegistrationAggregateRootRepository;
 use Tests\Fixtures\UserWasRegistered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -48,30 +46,14 @@ class LaravelMessageRepositoryTest extends TestCase
     /** @test */
     public function it_can_retrieve_messages()
     {
-        $this->registerUser(
-            $aggregateRootId = RegistrationAggregateRootId::create()
-        );
+        $id = RegistrationAggregateRootId::create();
+        $message = $this->getUserWasRegisteredMessage($id);
 
-        foreach ($this->repository->retrieveAll($aggregateRootId) as $message) {
+        $this->repository->persist($message);
+
+        foreach ($this->repository->retrieveAll($id) as $message) {
+            $this->assertEquals($id, $message->aggregateRootId());
             $this->assertInstanceOf(UserWasRegistered::class, $message->event());
         }
-    }
-
-    private function registerUser(RegistrationAggregateRootId $aggregateRootId): void
-    {
-        $repository = $this->aggregateRepository();
-
-        $registration = $repository->retrieve($aggregateRootId);
-
-        $registration->registerUser(
-            new RegisterUser('Dries Vints', 'driesvints@gmail.com')
-        );
-
-        $repository->persist($registration);
-    }
-
-    private function aggregateRepository(): RegistrationAggregateRootRepository
-    {
-        return $this->app->make(RegistrationAggregateRootRepository::class);
     }
 }

@@ -7,5 +7,6 @@
     </testsuites>
     <php>
         <env name="DB_CONNECTION" value="testing"/>
+        <env name="MAIL_DRIVER" value="array"/>
     </php>
 </phpunit>

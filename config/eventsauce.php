@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     /*
      * The default database connection name, used to store messages.
      * When null is provided it'll use the default app connection.
@@ -18,17 +19,4 @@ return [
         'output_file' => null,
     ],
 
-    /*
-     * This class is responsible for dispatching jobs.
-     *
-     * It should implement \EventSauce\EventSourcing\MessageDispatcher
-     */
-    'dispatcher' => \EventSauce\LaravelEventSauce\AsynchronousMessageDispatcher::class,
-
-    /*
-     * This class is responsible for storing and retrieving events.
-     *
-     * It should implement \EventSauce\EventSourcing\MessageRepository
-     */
-    'repository' => \EventSauce\LaravelEventSauce\LaravelMessageRepository::class,
 ];

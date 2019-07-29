@@ -5,7 +5,7 @@ namespace Tests;
 use EventSauce\LaravelEventSauce\HandleAsyncConsumer;
 use EventSauce\LaravelEventSauce\AsynchronousMessageDispatcher;
 use Illuminate\Support\Facades\Bus;
-use Tests\Fixtures\SendConfirmationEmail;
+use Tests\Fixtures\SendConfirmationNotification;
 
 class AsynchronousMessageDispatcherTest extends TestCase
 {
@@ -24,7 +24,7 @@ class AsynchronousMessageDispatcherTest extends TestCase
     private function dispatcher(): AsynchronousMessageDispatcher
     {
         return new AsynchronousMessageDispatcher(
-            SendConfirmationEmail::class
+            SendConfirmationNotification::class
         );
     }
 }
