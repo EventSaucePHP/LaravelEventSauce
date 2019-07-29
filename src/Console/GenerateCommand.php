@@ -9,7 +9,7 @@ use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
 use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Illuminate\Console\Command;
 
-final class GenerateCodeCommand extends Command
+final class GenerateCommand extends Command
 {
     protected $signature = 'eventsauce:generate';
 

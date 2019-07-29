@@ -6,7 +6,7 @@ namespace EventSauce\LaravelEventSauce;
 
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
-use EventSauce\LaravelEventSauce\Console\GenerateCodeCommand;
+use EventSauce\LaravelEventSauce\Console\GenerateCommand;
 use Illuminate\Support\ServiceProvider;
 
 final class EventSauceServiceProvider extends ServiceProvider
@@ -31,7 +31,7 @@ final class EventSauceServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/eventsauce.php', 'eventsauce');
 
         $this->commands([
-            GenerateCodeCommand::class,
+            GenerateCommand::class,
         ]);
 
         $this->app->bind(MessageSerializer::class, function () {
@@ -42,7 +42,7 @@ final class EventSauceServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            GenerateCodeCommand::class,
+            GenerateCommand::class,
         ];
     }
 }

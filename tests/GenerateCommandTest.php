@@ -8,7 +8,7 @@ use EventSauce\LaravelEventSauce\AggregateRootRepository;
 use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Tests\Fixtures\RegistrationAggregateRootRepository;
 
-class GenerateCodeCommandTest extends TestCase
+class GenerateCommandTest extends TestCase
 {
     /** @test */
     public function it_can_generate_eventsauce_code()
