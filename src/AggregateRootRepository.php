@@ -35,6 +35,12 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var string */
     protected $table;
 
+    /** @var string */
+    protected static $inputFile = '';
+
+    /** @var string */
+    protected static $outputFile = '';
+
     public function __construct(LaravelMessageRepository $messageRepository, Container $container)
     {
         if ($this->aggregateRoot === null) {
@@ -90,5 +96,15 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         return array_map(function (string $consumer) {
             return $this->container->make($consumer);
         }, $consumers);
+    }
+
+    public static function inputFile(): string
+    {
+        return static::$inputFile;
+    }
+
+    public static function outputFile(): string
+    {
+        return static::$outputFile;
     }
 }

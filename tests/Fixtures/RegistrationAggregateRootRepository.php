@@ -20,4 +20,10 @@ final class RegistrationAggregateRootRepository extends AggregateRootRepository
     protected $asyncConsumers = [
         SendConfirmationNotification::class,
     ];
+
+    /** @var string */
+    protected static $inputFile = __DIR__ . '/commands_and_events.yml';
+
+    /** @var string */
+    protected static $outputFile = __DIR__ . '/commands_and_events.php';
 }

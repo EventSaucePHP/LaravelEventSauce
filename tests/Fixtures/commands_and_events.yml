@@ -1,0 +1,14 @@
+---
+namespace: Tests\Fixtures
+
+commands:
+  ConfirmUser:
+    fields:
+      identifier: RegistrationAggregateRootId
+      user_id: int
+
+events:
+  UserWasConfirmed:
+    fields:
+      identifier: RegistrationAggregateRootId
+      user_id: int

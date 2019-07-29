@@ -6,32 +6,36 @@ namespace EventSauce\LaravelEventSauce\Console;
 
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
-use EventSauce\LaravelEventSauce\Exceptions\InvalidConfiguration;
+use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Illuminate\Console\Command;
 
 final class GenerateCodeCommand extends Command
 {
     protected $signature = 'eventsauce:generate';
 
-    protected $description = 'Generate EventSauce code.';
+    protected $description = 'Generate aggregate commands and events.';
 
-    public function handle()
+    public function handle(): void
     {
         $this->info('Start generating code...');
 
-        $codeGenerationConfig = data_get(config('eventsauce'), 'aggregate_roots.*.code_generation');
+        $codeGenerationConfig = config('eventsauce.code_generation');
 
-        collect($codeGenerationConfig)->each(function (array $config) {
-            $this->generateCode($config['input_yaml_file'], $config['output_file']);
-        });
+        collect($codeGenerationConfig)
+            ->reject(function (string $repository) {
+                return $repository::inputFile() === '';
+            })
+            ->each(function (string $repository) {
+                $this->generateCode($repository::inputFile(), $repository::outputFile());
+            });
 
         $this->info('All done!');
     }
 
-    private function generateCode(string $inputFile, string $outputFile)
+    private function generateCode(string $inputFile, string $outputFile): void
     {
-        if ( ! file_exists($inputFile)) {
-            throw InvalidConfiguration::definitionFileDoesNotExist($inputFile);
+        if (! file_exists($inputFile)) {
+            throw CodeGenerationFailed::definitionFileDoesNotExist($inputFile);
         }
 
         $loader = new YamlDefinitionLoader();

@@ -6,7 +6,7 @@ namespace EventSauce\LaravelEventSauce\Exceptions;
 
 use Exception;
 
-final class InvalidConfiguration extends Exception
+final class CodeGenerationFailed extends Exception
 {
     public static function definitionFileDoesNotExist(string $definitionFile): self
     {
