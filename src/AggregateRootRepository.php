@@ -29,11 +29,11 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var array */
     protected $asyncConsumers = [];
 
-    /** @var string|null */
+    /** @var string */
     protected $connection;
 
     /** @var string */
-    protected $table = 'domain_messages';
+    protected $table;
 
     public function __construct(LaravelMessageRepository $messageRepository, Container $container)
     {
@@ -48,7 +48,9 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             $this->messageRepository->setConnection($this->connection);
         }
 
-        $this->messageRepository->setTable($this->table);
+        if ($this->table) {
+            $this->messageRepository->setTable($this->table);
+        }
     }
 
     public function retrieve(AggregateRootId $aggregateRootId): object
