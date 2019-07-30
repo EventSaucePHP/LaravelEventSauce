@@ -7,6 +7,7 @@ namespace EventSauce\LaravelEventSauce;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\LaravelEventSauce\Console\GenerateCommand;
+use EventSauce\LaravelEventSauce\Console\MakeAggregateRootCommand;
 use Illuminate\Support\ServiceProvider;
 
 final class EventSauceServiceProvider extends ServiceProvider
@@ -17,11 +18,11 @@ final class EventSauceServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/eventsauce.php' => config_path('eventsauce.php'),
+                __DIR__ . '/../config/eventsauce.php' => $this->app->configPath('eventsauce.php'),
             ], 'config');
 
             $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
+                __DIR__ . '/../database/migrations' => $this->app->databasePath('migrations'),
             ], 'migrations');
         }
     }
@@ -32,6 +33,7 @@ final class EventSauceServiceProvider extends ServiceProvider
 
         $this->commands([
             GenerateCommand::class,
+            MakeAggregateRootCommand::class,
         ]);
 
         $this->app->bind(MessageSerializer::class, function () {
@@ -43,6 +45,7 @@ final class EventSauceServiceProvider extends ServiceProvider
     {
         return [
             GenerateCommand::class,
+            MakeAggregateRootCommand::class,
         ];
     }
 }

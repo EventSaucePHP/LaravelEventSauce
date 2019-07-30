@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Fixtures;
+namespace {{ namespace }};
 
 use EventSauce\EventSourcing\AggregateRootId;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-final class RegistrationAggregateRootId implements AggregateRootId
+final class {{ aggregateRoot }}Id implements AggregateRootId
 {
     /** @var string */
     private $identifier;
@@ -32,7 +32,6 @@ final class RegistrationAggregateRootId implements AggregateRootId
     {
         return new static(Uuid::uuid4()->toString());
     }
-
 
     public static function fromString(string $aggregateRootId): AggregateRootId
     {

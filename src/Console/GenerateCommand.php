@@ -8,12 +8,23 @@ use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
 use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 
 final class GenerateCommand extends Command
 {
     protected $signature = 'eventsauce:generate';
 
-    protected $description = 'Generate aggregate commands and events.';
+    protected $description = 'Generate commands and events for aggregate roots.';
+
+    /** @var \Illuminate\Filesystem\Filesystem */
+    protected $filesystem;
+
+    public function __construct(Filesystem $files)
+    {
+        parent::__construct();
+
+        $this->filesystem = $files;
+    }
 
     public function handle(): void
     {
@@ -38,14 +49,10 @@ final class GenerateCommand extends Command
             throw CodeGenerationFailed::definitionFileDoesNotExist($inputFile);
         }
 
-        $loader = new YamlDefinitionLoader();
-        $dumper = new CodeDumper();
+        $loadedYamlContent = (new YamlDefinitionLoader())->load($inputFile);
+        $phpCode = (new CodeDumper())->dump($loadedYamlContent);
 
-        $loadedYamlContent = $loader->load($inputFile);
-
-        $phpCode = $dumper->dump($loadedYamlContent);
-
-        file_put_contents($outputFile, $phpCode);
+        $this->filesystem->put($outputFile, $phpCode);
 
         $this->warn("Written code to `{$outputFile}`");
     }
