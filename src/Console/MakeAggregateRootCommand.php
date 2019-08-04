@@ -38,7 +38,11 @@ final class MakeAggregateRootCommand extends Command
         $aggregateRootRepositoryClass = $this->formatClassName($this->argument('class').'Repository');
         $aggregateRootRepositoryPath = $this->getPath($aggregateRootRepositoryClass);
 
-        $this->ensureValidPaths([$aggregateRootPath, $aggregateRootIdPath, $aggregateRootRepositoryPath]);
+        $this->ensureValidPaths([
+            $aggregateRootPath,
+            $aggregateRootIdPath,
+            $aggregateRootRepositoryPath,
+        ]);
 
         $this->makeDirectory($aggregateRootPath);
 
