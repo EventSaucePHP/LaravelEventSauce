@@ -13,8 +13,7 @@ use Spatie\LaravelEventSauce\Exceptions\CouldNotMakeAggregateRoot;
 
 final class MakeAggregateRootCommand extends Command
 {
-    protected $signature = 'make:aggregate-root {class}
-                            {--t|table : Generate a repository with a custom table and a migration.}';
+    protected $signature = 'make:aggregate-root {class}';
 
     protected $description = 'Create a new aggregate root and resources';
 
@@ -50,27 +49,18 @@ final class MakeAggregateRootCommand extends Command
             'migration' => 'Create'.ucfirst(class_basename($aggregateRootClass)).'DomainMessagesTable',
         ];
 
-        $this->filesystem->put($aggregateRootPath, $this->getStubContent('AggregateRoot', $replacements));
-        $this->filesystem->put($aggregateRootIdPath, $this->getStubContent('AggregateRootId', $replacements));
+        collect([
+            'AggregateRoot' => $aggregateRootPath,
+            'AggregateRootId' => $aggregateRootIdPath,
+            'AggregateRootRepository' => $aggregateRootRepositoryPath,
+        ])->map(function (string $path, string $stubName) use ($replacements) {
+            $this->filesystem->put($path, $this->getStubContent($stubName, $replacements));
+        });
 
-        if ($this->option('table')) {
-            $this->filesystem->put(
-                $aggregateRootRepositoryPath,
-                $this->getStubContent('AggregateRootRepositoryWithTable', $replacements)
-            );
+        $this->createMigration($replacements);
 
-            $this->createMigration($replacements);
-
-            $this->info('Aggregate root classes and migration created successfully!');
-            $this->comment("Run `php artisan migrate` to create the {$replacements['table']} table.");
-        } else {
-            $this->filesystem->put(
-                $aggregateRootRepositoryPath,
-                $this->getStubContent('AggregateRootRepository', $replacements)
-            );
-
-            $this->info('Aggregate root classes successfully!');
-        }
+        $this->info('Aggregate root classes and migration created successfully!');
+        $this->comment("Run `php artisan migrate` to create the {$replacements['table']} table.");
     }
 
     private function formatClassName(string $name): string
