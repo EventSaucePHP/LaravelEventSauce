@@ -8,6 +8,7 @@ use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\LaravelEventSauce\Console\GenerateCommand;
 use EventSauce\LaravelEventSauce\Console\MakeAggregateRootCommand;
+use EventSauce\LaravelEventSauce\Console\MakeConsumerCommand;
 use Illuminate\Support\ServiceProvider;
 
 final class EventSauceServiceProvider extends ServiceProvider
@@ -34,6 +35,7 @@ final class EventSauceServiceProvider extends ServiceProvider
         $this->commands([
             GenerateCommand::class,
             MakeAggregateRootCommand::class,
+            MakeConsumerCommand::class,
         ]);
 
         $this->app->bind(MessageSerializer::class, function () {
@@ -46,6 +48,7 @@ final class EventSauceServiceProvider extends ServiceProvider
         return [
             GenerateCommand::class,
             MakeAggregateRootCommand::class,
+            MakeConsumerCommand::class,
         ];
     }
 }

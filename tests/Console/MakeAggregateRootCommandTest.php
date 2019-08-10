@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Tests\Console;
 
 use Illuminate\Filesystem\Filesystem;
+use Tests\TestCase;
 
 class MakeAggregateRootCommandTest extends TestCase
 {
@@ -27,7 +28,7 @@ class MakeAggregateRootCommandTest extends TestCase
             $filesystem->delete($migrationFile);
         }
 
-        $this->artisan('make:aggregate-root', ['class' => 'Domain/Registration']);
+        $this->artisan('make:aggregate-root', ['namespace' => 'Domain/Registration']);
 
         $this->assertFileExists($domainDirectory. '/Registration.php');
         $this->assertFileExists($domainDirectory. '/RegistrationId.php');

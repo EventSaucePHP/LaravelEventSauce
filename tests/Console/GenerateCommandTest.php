@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Tests;
+namespace Tests\Console;
 
 use EventSauce\LaravelEventSauce\AggregateRootRepository;
 use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Tests\Fixtures\RegistrationAggregateRootRepository;
+use Tests\TestCase;
 
 class GenerateCommandTest extends TestCase
 {
@@ -19,7 +18,7 @@ class GenerateCommandTest extends TestCase
 
         $this->artisan('eventsauce:generate');
 
-        $this->assertFileExists(__DIR__ . '/Fixtures/commands_and_events.php');
+        $this->assertFileExists(__DIR__ . '/../Fixtures/commands_and_events.php');
     }
 
     /** @test */

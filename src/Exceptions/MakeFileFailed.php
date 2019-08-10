@@ -6,7 +6,7 @@ namespace EventSauce\LaravelEventSauce\Exceptions;
 
 use Exception;
 
-final class MakeAggregateRootFailed extends Exception
+final class MakeFileFailed extends Exception
 {
     public static function fileExists(string $path): self
     {

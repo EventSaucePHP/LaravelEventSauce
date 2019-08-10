@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use EventSauce\EventSourcing\Consumer;
+use EventSauce\EventSourcing\Message;
+
+final class {{ consumer }} implements Consumer
+{
+    public function handle(Message $message): void
+    {
+        // ...
+    }
+}
