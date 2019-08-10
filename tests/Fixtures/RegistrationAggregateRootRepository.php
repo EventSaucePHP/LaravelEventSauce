@@ -12,12 +12,8 @@ final class RegistrationAggregateRootRepository extends AggregateRootRepository
     protected $aggregateRoot = RegistrationAggregateRoot::class;
 
     /** @var array */
-    protected $syncConsumers = [
+    protected $consumers = [
         UpdateUsersTable::class,
-    ];
-
-    /** @var array */
-    protected $asyncConsumers = [
         SendConfirmationNotification::class,
     ];
 

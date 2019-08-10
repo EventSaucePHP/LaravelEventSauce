@@ -2,12 +2,12 @@
 
 namespace Tests;
 
-use EventSauce\LaravelEventSauce\HandleAsyncConsumer;
-use EventSauce\LaravelEventSauce\AsynchronousMessageDispatcher;
+use EventSauce\LaravelEventSauce\HandleConsumer;
+use EventSauce\LaravelEventSauce\LaravelMessageDispatcher;
 use Illuminate\Support\Facades\Bus;
 use Tests\Fixtures\SendConfirmationNotification;
 
-class AsynchronousMessageDispatcherTest extends TestCase
+class LaravelMessageDispatcherTest extends TestCase
 {
     /** @test */
     public function it_can_dispatch_messages()
@@ -18,12 +18,12 @@ class AsynchronousMessageDispatcherTest extends TestCase
 
         $this->dispatcher()->dispatch($message);
 
-        Bus::assertDispatched(HandleAsyncConsumer::class);
+        Bus::assertDispatched(HandleConsumer::class);
     }
 
-    private function dispatcher(): AsynchronousMessageDispatcher
+    private function dispatcher(): LaravelMessageDispatcher
     {
-        return new AsynchronousMessageDispatcher(
+        return new LaravelMessageDispatcher(
             SendConfirmationNotification::class
         );
     }

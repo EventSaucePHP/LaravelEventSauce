@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace EventSauce\LaravelEventSauce;
 
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageDispatcher;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-final class AsynchronousMessageDispatcher implements MessageDispatcher
+final class LaravelMessageDispatcher implements MessageDispatcher
 {
     /** @var string[] */
     private $consumers;
@@ -20,7 +19,11 @@ final class AsynchronousMessageDispatcher implements MessageDispatcher
     public function dispatch(Message ...$messages)
     {
         foreach ($this->consumers as $consumer) {
-            dispatch(new HandleAsyncConsumer($consumer, ...$messages));
+            if (is_a($consumer, ShouldQueue::class, true)) {
+                dispatch(new HandleConsumer($consumer, ...$messages));
+            } else {
+                dispatch_now(new HandleConsumer($consumer, ...$messages));
+            }
         }
     }
 }

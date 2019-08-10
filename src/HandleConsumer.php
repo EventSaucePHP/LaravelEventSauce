@@ -6,13 +6,12 @@ namespace EventSauce\LaravelEventSauce;
 
 use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\Message;
-use EventSauce\EventSourcing\SynchronousMessageDispatcher;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-final class HandleAsyncConsumer implements ShouldQueue
+final class HandleConsumer implements ShouldQueue
 {
     use InteractsWithQueue, Queueable;
 
@@ -32,8 +31,9 @@ final class HandleAsyncConsumer implements ShouldQueue
     {
         $consumer = $this->resolveConsumer($container);
 
-        (new SynchronousMessageDispatcher($consumer))
-            ->dispatch(...$this->messages);
+        foreach ($this->messages as $message) {
+            $consumer->handle($message);
+        }
     }
 
     private function resolveConsumer(Container $container): Consumer

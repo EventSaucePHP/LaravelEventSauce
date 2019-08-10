@@ -16,12 +16,7 @@ final class {{ aggregateRoot }}Repository extends AggregateRootRepository
     protected $table = '{{ table }}';
 
     /** @var array */
-    protected $syncConsumers = [
-
-    ];
-
-    /** @var array */
-    protected $asyncConsumers = [
+    protected $consumers = [
 
     ];
 }

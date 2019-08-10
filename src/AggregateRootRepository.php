@@ -8,8 +8,6 @@ use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\MessageDispatcherChain;
-use EventSauce\EventSourcing\SynchronousMessageDispatcher;
-use Illuminate\Contracts\Container\Container;
 use LogicException;
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
@@ -17,17 +15,11 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var LaravelMessageRepository */
     private $messageRepository;
 
-    /** @var Container */
-    private $container;
-
     /** @var string */
     protected $aggregateRoot;
 
     /** @var array */
-    protected $syncConsumers = [];
-
-    /** @var array */
-    protected $asyncConsumers = [];
+    protected $consumers = [];
 
     /** @var string */
     protected $connection;
@@ -41,14 +33,13 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     /** @var string */
     protected static $outputFile = '';
 
-    public function __construct(LaravelMessageRepository $messageRepository, Container $container)
+    public function __construct(LaravelMessageRepository $messageRepository)
     {
         if ($this->aggregateRoot === null) {
             throw new LogicException("You have to set an aggregate root before the repository can be initialized.");
         }
 
         $this->messageRepository = $messageRepository;
-        $this->container = $container;
 
         if ($this->connection) {
             $this->messageRepository->setConnection($this->connection);
@@ -80,22 +71,12 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             $this->aggregateRoot,
             $this->messageRepository,
             new MessageDispatcherChain(
-                new SynchronousMessageDispatcher(
-                    ...$this->resolveConsumers($this->syncConsumers)
-                ),
-                new AsynchronousMessageDispatcher(
-                    ...$this->asyncConsumers
+                new LaravelMessageDispatcher(
+                    ...$this->consumers
                 ),
                 new EventMessageDispatcher()
             )
         );
-    }
-
-    private function resolveConsumers(array $consumers): array
-    {
-        return array_map(function (string $consumer) {
-            return $this->container->make($consumer);
-        }, $consumers);
     }
 
     public static function inputFile(): string
