@@ -6,7 +6,7 @@ namespace {{ namespace }};
 
 use EventSauce\LaravelEventSauce\AggregateRootRepository;
 
-/** @method \{{ namespace }}\{{ aggregateRoot }} retrieve */
+/** @method \{{ namespace }}\{{ aggregateRoot }} retrieve(\{{ namespace }}\{{ aggregateRoot }}Id $aggregateRootId) */
 final class {{ aggregateRoot }}Repository extends AggregateRootRepository
 {
     /** @var string */
