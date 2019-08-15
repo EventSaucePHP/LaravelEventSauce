@@ -23,7 +23,10 @@ final class MakeConsumerCommand extends MakeCommand
 
         $this->makeFiles(
             ['Consumer' => $consumerPath],
-            ['consumer' => class_basename($consumerClass)]
+            [
+                'consumer' => class_basename($consumerClass),
+                'namespace' => substr($consumerClass, 0, strrpos($consumerClass, '\\')),
+            ]
         );
 
         $this->info('Consumer class created successfully!');
