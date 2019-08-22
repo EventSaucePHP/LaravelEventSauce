@@ -30,9 +30,7 @@ final class GenerateCommand extends Command
     {
         $this->info('Start generating code...');
 
-        $codeGenerationConfig = config('eventsauce.code_generation');
-
-        collect($codeGenerationConfig)
+        collect(config('eventsauce.repositories', []))
             ->reject(function (string $repository) {
                 return $repository::inputFile() === '';
             })
@@ -45,9 +43,7 @@ final class GenerateCommand extends Command
 
     private function generateCode(string $inputFile, string $outputFile): void
     {
-        if (! file_exists($inputFile)) {
-            throw CodeGenerationFailed::definitionFileDoesNotExist($inputFile);
-        }
+        $this->assertFileExists($inputFile);
 
         $loadedYamlContent = (new YamlDefinitionLoader())->load($inputFile);
         $phpCode = (new CodeDumper())->dump($loadedYamlContent);
@@ -55,5 +51,12 @@ final class GenerateCommand extends Command
         $this->filesystem->put($outputFile, $phpCode);
 
         $this->warn("Written code to `{$outputFile}`");
+    }
+
+    private function assertFileExists(string $file): void
+    {
+        if (! file_exists($file)) {
+            throw CodeGenerationFailed::definitionFileDoesNotExist($file);
+        }
     }
 }

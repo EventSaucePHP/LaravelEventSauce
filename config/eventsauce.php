@@ -16,14 +16,14 @@ return [
     'table' => env('EVENTSAUCE_TABLE', 'domain_messages'),
 
     /**
-     * We can generate commands and events for you starting from a Yaml file.
-     * Here you can specify the repositories for which we should generate them.
+     * Here you specify all of your aggregate root repositories.
+     * We'll use this info to generate commands and events.
      *
      * More info on code generation here:
      * https://eventsauce.io/docs/getting-started/create-events-and-commands
      */
 
-    'code_generation' => [
+    'repositories' => [
         // MyAggregateRootRepository::class,
     ],
 

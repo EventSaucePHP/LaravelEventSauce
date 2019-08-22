@@ -14,7 +14,7 @@ class GenerateCommandTest extends TestCase
     /** @test */
     public function it_can_generate_eventsauce_code()
     {
-        config(['eventsauce.code_generation' => [
+        config(['eventsauce.repositories' => [
             RegistrationAggregateRootRepository::class,
         ]]);
 
@@ -26,7 +26,7 @@ class GenerateCommandTest extends TestCase
     /** @test */
     public function it_throws_an_exception_when_the_definition_file_cannot_be_found()
     {
-        config(['eventsauce.code_generation' => [
+        config(['eventsauce.repositories' => [
             UndefinedDefinitionFileRepository::class,
         ]]);
 
