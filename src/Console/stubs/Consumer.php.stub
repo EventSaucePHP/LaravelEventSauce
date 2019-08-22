@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace {{ namespace }};
 
-use EventSauce\EventSourcing\Consumer;
 use EventSauce\EventSourcing\Message;
+use EventSauce\LaravelEventSauce\Consumer;
 
-final class {{ consumer }} implements Consumer
+final class {{ consumer }} extends Consumer
 {
-    public function handle(Message $message): void
-    {
-        // ...
-    }
+    // ...
 }

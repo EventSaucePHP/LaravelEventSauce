@@ -4,19 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures;
 
-use EventSauce\EventSourcing\Consumer;
-use EventSauce\EventSourcing\Message;
+use EventSauce\LaravelEventSauce\Consumer;
 
-final class SendConfirmationNotification implements Consumer
+final class SendConfirmationNotification extends Consumer
 {
-    public function handle(Message $message)
+    protected function handleUserWasRegistered(UserWasRegistered $event): void
     {
-        $event = $message->event();
-
-        if ($event instanceof UserWasRegistered) {
-            User::where('email', $event->email())
-                ->first()
-                ->notify(new NewUserNotification());
-        }
+        User::where('email', $event->email())
+            ->first()
+            ->notify(new NewUserNotification());
     }
 }
