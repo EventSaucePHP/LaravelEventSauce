@@ -46,6 +46,8 @@ abstract class MakeCommand extends Command
     {
         foreach ($paths as $path) {
             if (file_exists($path)) {
+                $this->error("The file at path `{$path}` already exists.");
+
                 throw MakeFileFailed::fileExists($path);
             }
         }

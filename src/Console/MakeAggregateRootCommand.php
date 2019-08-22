@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EventSauce\LaravelEventSauce\Console;
 
 use DateTimeImmutable;
+use EventSauce\LaravelEventSauce\Exceptions\MakeFileFailed;
 use Illuminate\Support\Str;
 
 final class MakeAggregateRootCommand extends MakeCommand
@@ -13,7 +14,7 @@ final class MakeAggregateRootCommand extends MakeCommand
 
     protected $description = 'Create a new aggregate root and resources';
 
-    public function handle(): void
+    public function handle()
     {
         $aggregateRootClass = $this->formatClassName($this->argument('namespace'));
         $aggregateRootPath = $this->getPath($aggregateRootClass);
@@ -24,16 +25,20 @@ final class MakeAggregateRootCommand extends MakeCommand
         $aggregateRootRepositoryClass = $this->formatClassName($this->argument('namespace').'Repository');
         $aggregateRootRepositoryPath = $this->getPath($aggregateRootRepositoryClass);
 
-        $this->ensureValidPaths([
-            $aggregateRootPath,
-            $aggregateRootIdPath,
-            $aggregateRootRepositoryPath,
-        ]);
+        try {
+            $this->ensureValidPaths([
+                $aggregateRootPath,
+                $aggregateRootIdPath,
+                $aggregateRootRepositoryPath,
+            ]);
+        } catch (MakeFileFailed $exception) {
+            return 1;
+        }
 
         $this->makeDirectory($aggregateRootPath);
 
         $replacements = [
-            'aggregateRoot' => class_basename($aggregateRootClass),
+            'aggregateRoot' => $aggregateRoot = class_basename($aggregateRootClass),
             'namespace' => substr($aggregateRootClass, 0, strrpos($aggregateRootClass, '\\')),
             'table' => Str::snake(class_basename($aggregateRootClass)).'_domain_messages',
             'migration' => 'Create'.ucfirst(class_basename($aggregateRootClass)).'DomainMessagesTable',
@@ -47,7 +52,7 @@ final class MakeAggregateRootCommand extends MakeCommand
 
         $this->createMigration($replacements);
 
-        $this->info('Aggregate root classes and migration created successfully!');
+        $this->info("{$aggregateRoot} classes and migration created successfully!");
         $this->comment("Run `php artisan migrate` to create the {$replacements['table']} table.");
     }
 

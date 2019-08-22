@@ -4,20 +4,26 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce\Console;
 
+use EventSauce\LaravelEventSauce\Exceptions\MakeFileFailed;
+
 final class MakeConsumerCommand extends MakeCommand
 {
     protected $signature = 'make:consumer {class}';
 
     protected $description = 'Create a new consumer class';
 
-    public function handle(): void
+    public function handle()
     {
         $consumerClass = $this->formatClassName($this->argument('class'));
         $consumerPath = $this->getPath($consumerClass);
 
-        $this->ensureValidPaths([
-            $consumerPath,
-        ]);
+        try {
+            $this->ensureValidPaths([
+                $consumerPath,
+            ]);
+        } catch (MakeFileFailed $exception) {
+            return 1;
+        }
 
         $this->makeDirectory($consumerPath);
 
@@ -29,6 +35,6 @@ final class MakeConsumerCommand extends MakeCommand
             ]
         );
 
-        $this->info('Consumer class created successfully!');
+        $this->info("{$consumerClass} class created successfully!");
     }
 }
