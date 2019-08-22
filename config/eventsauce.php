@@ -24,7 +24,7 @@ return [
      */
 
     'repositories' => [
-        // MyAggregateRootRepository::class,
+        // \App\Domain\MyAggregateRoot\MyAggregateRootRepository::class,
     ],
 
 ];
