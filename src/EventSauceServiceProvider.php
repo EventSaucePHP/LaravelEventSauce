@@ -20,11 +20,11 @@ final class EventSauceServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/eventsauce.php' => $this->app->configPath('eventsauce.php'),
-            ], 'config');
+            ], ['eventsauce', 'eventsauce-config']);
 
             $this->publishes([
                 __DIR__ . '/../database/migrations' => $this->app->databasePath('migrations'),
-            ], 'migrations');
+            ], ['eventsauce', 'eventsauce-migrations']);
         }
     }
 
