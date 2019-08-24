@@ -13,4 +13,5 @@ install:
   - travis_retry composer install
 
 script:
+  - vendor/bin/phpspec run
   - vendor/bin/phpunit
