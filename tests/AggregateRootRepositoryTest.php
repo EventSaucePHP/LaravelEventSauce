@@ -18,7 +18,7 @@ class AggregateRootRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -76,7 +76,10 @@ class AggregateRootRepositoryTest extends TestCase
         $this->assertDatabaseHas('users', ['name' => 'Dries Vints', 'email' => 'dries.vints@gmail.com']);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @todo Test this against non-in memory database connection.
+     */
     public function it_can_have_a_custom_connection()
     {
         $connection = 'custom';

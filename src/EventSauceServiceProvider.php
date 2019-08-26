@@ -15,6 +15,8 @@ final class EventSauceServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/eventsauce.php' => $this->app->configPath('eventsauce.php'),

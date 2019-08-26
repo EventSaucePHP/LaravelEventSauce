@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests;
 
 use EventSauce\LaravelEventSauce\LaravelMessageRepository;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Fixtures\RegistrationAggregateRootId;
 use Tests\Fixtures\UserWasRegistered;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LaravelMessageRepositoryTest extends TestCase
 {
@@ -16,14 +16,14 @@ class LaravelMessageRepositoryTest extends TestCase
     /** @var LaravelMessageRepository */
     private $repository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->repository = $this->app->make(LaravelMessageRepository::class);
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
 
