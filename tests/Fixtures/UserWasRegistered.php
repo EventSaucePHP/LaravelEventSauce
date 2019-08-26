@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures;
 
-use EventSauce\EventSourcing\Serialization\SerializableEvent;
+use EventSauce\EventSourcing\Serialization\SerializablePayload;
 
-final class UserWasRegistered implements SerializableEvent
+final class UserWasRegistered implements SerializablePayload
 {
     /** @var string */
     private $name;
@@ -38,7 +38,7 @@ final class UserWasRegistered implements SerializableEvent
         ];
     }
 
-    public static function fromPayload(array $payload): SerializableEvent
+    public static function fromPayload(array $payload): SerializablePayload
     {
         return new static(
             $payload['name'],
