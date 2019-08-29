@@ -18,7 +18,7 @@ class MakeConsumerCommandTest extends TestCase
 
         $this->artisan('make:consumer', ['class' => 'Domain/SendEmailConfirmation']);
 
-        $this->assertFileExists($domainDirectory. '/SendEmailConfirmation.php');
+        $this->assertFileExists($domainDirectory.'/SendEmailConfirmation.php');
     }
 
     private function filesystem(): Filesystem

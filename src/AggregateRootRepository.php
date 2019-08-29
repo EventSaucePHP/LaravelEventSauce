@@ -36,7 +36,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     public function __construct(LaravelMessageRepository $messageRepository)
     {
         if ($this->aggregateRoot === null) {
-            throw new LogicException("You have to set an aggregate root before the repository can be initialized.");
+            throw new LogicException('You have to set an aggregate root before the repository can be initialized.');
         }
 
         $this->messageRepository = $messageRepository;

@@ -18,8 +18,8 @@ final class RegistrationAggregateRootRepository extends AggregateRootRepository
     ];
 
     /** @var string */
-    protected static $inputFile = __DIR__ . '/commands_and_events.yml';
+    protected static $inputFile = __DIR__.'/commands_and_events.yml';
 
     /** @var string */
-    protected static $outputFile = __DIR__ . '/commands_and_events.php';
+    protected static $outputFile = __DIR__.'/commands_and_events.php';
 }
