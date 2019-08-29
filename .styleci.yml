@@ -1,1 +1,5 @@
 preset: recommended
+enabled:
+  - not_operator_with_successor_space
+disabled:
+  - align_double_arrow
