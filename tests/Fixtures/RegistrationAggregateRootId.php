@@ -33,7 +33,6 @@ final class RegistrationAggregateRootId implements AggregateRootId
         return new static(Uuid::uuid4()->toString());
     }
 
-
     public static function fromString(string $aggregateRootId): AggregateRootId
     {
         return new static($aggregateRootId);

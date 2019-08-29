@@ -78,6 +78,7 @@ class AggregateRootRepositoryTest extends TestCase
 
     /**
      * @test
+     *
      * @todo Test this against non-in memory database connection.
      */
     public function it_can_have_a_custom_connection()

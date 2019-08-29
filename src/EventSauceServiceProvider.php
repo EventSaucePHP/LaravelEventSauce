@@ -15,22 +15,22 @@ final class EventSauceServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/eventsauce.php' => $this->app->configPath('eventsauce.php'),
+                __DIR__.'/../config/eventsauce.php' => $this->app->configPath('eventsauce.php'),
             ], ['eventsauce', 'eventsauce-config']);
 
             $this->publishes([
-                __DIR__ . '/../database/migrations' => $this->app->databasePath('migrations'),
+                __DIR__.'/../database/migrations' => $this->app->databasePath('migrations'),
             ], ['eventsauce', 'eventsauce-migrations']);
         }
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/eventsauce.php', 'eventsauce');
+        $this->mergeConfigFrom(__DIR__.'/../config/eventsauce.php', 'eventsauce');
 
         $this->commands([
             GenerateCommand::class,
