@@ -16,7 +16,7 @@
     </a>
 </p>
 
-This library is a work in progress...
+This library is a work in progress. Docs coming soon...
 
 ## Acknowledgments
 
