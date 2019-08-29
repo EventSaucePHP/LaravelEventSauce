@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `eventsauce/laravel-eventsauce` will be documented in this file.
+This changelog follows [the Keep a Changelog standard](https://keepachangelog.com).
 
 ## [Unreleased](https://github.com/eventsauce/laravel-eventsauce/compare/1.0.0...master)
 
