@@ -48,6 +48,14 @@ class AggregateRootRepositoryTest extends TestCase
     }
 
     /** @test */
+    public function it_throws_an_exception_with_a_non_aggregate_root()
+    {
+        $this->expectException(LogicException::class);
+
+        $this->repository(RepositoryWithNonAggregateRoot::class);
+    }
+
+    /** @test */
     public function it_can_retrieve_an_aggregate()
     {
         $repository = $this->repository(RegistrationAggregateRootRepository::class);
@@ -130,18 +138,25 @@ class AggregateRootRepositoryTest extends TestCase
     }
 }
 
-class RepositoryWithoutAggregateRootProperty extends AggregateRootRepository
+final class RepositoryWithoutAggregateRootProperty extends AggregateRootRepository
 {
 }
 
-class RepositoryWithCustomConnection extends AggregateRootRepository
+final class RepositoryWithNonAggregateRoot extends AggregateRootRepository
+{
+    protected $aggregateRoot = Foo::class;
+}
+
+final class Foo {}
+
+final class RepositoryWithCustomConnection extends AggregateRootRepository
 {
     protected $aggregateRoot = RegistrationAggregateRoot::class;
 
     protected $connection = 'custom';
 }
 
-class RepositoryWithCustomTable extends AggregateRootRepository
+final class RepositoryWithCustomTable extends AggregateRootRepository
 {
     protected $aggregateRoot = RegistrationAggregateRoot::class;
 

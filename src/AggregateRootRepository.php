@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce;
 
+use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
@@ -35,7 +36,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     public function __construct(LaravelMessageRepository $messageRepository)
     {
-        if ($this->aggregateRoot === null) {
+        if ($this->aggregateRoot === null || ! is_a($this->aggregateRoot, AggregateRoot::class, true)) {
             throw new LogicException('You have to set an aggregate root before the repository can be initialized.');
         }
 
