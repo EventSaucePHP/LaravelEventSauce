@@ -22,6 +22,11 @@ This library is a work in progress. More docs coming soon...
 
 - [Requirements](#requirements)
 - [Installation](#installation)
+- [Configuration](#configuration)
+    - [Migrations](#migrations)
+    - [Default Connection](#default-connection)
+    - [Default Table](#default-table)
+- [Generating Commands & Events](#generating-commands--events)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
 
@@ -40,6 +45,12 @@ composer require eventsauce/laravel-eventsauce
 
 ## Configuration
 
+You can publish the config file with the following command:
+
+```bash
+php artisan vendor:publish --tag="eventsauce-config"
+```
+
 ### Migrations
 
 The default `domain_messages` table will be loaded in through the library's service provider and migrated with:
@@ -54,15 +65,7 @@ You can also publish it and modify it as you see fit with the following command:
 php artisan vendor:publish --tag="eventsauce-migrations"
 ```
 
-### Config Options
-
-Publish the config file with the following command:
-
-```bash
-php artisan vendor:publish --tag="eventsauce-config"
-```
-
-#### Default Connection
+### Default Connection
 
 The default database connection can be modified by setting the `EVENTSAUCE_CONNECTION` env variable:
 
@@ -70,7 +73,7 @@ The default database connection can be modified by setting the `EVENTSAUCE_CONNE
 EVENTSAUCE_CONNECTION=mysql
 ```
 
-#### Default Table
+### Default Table
 
 The default table name for your domain messages can be set with the `EVENTSAUCE_TABLE` env variable:
 
