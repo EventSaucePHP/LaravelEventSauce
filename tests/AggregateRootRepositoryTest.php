@@ -26,7 +26,7 @@ class AggregateRootRepositoryTest extends TestCase
             $table->bigIncrements('id');
             $table->string('event_id', 36);
             $table->string('event_type', 100);
-            $table->string('aggregate_root_id', 36)->nullable()->index();
+            $table->string('event_stream', 36)->nullable()->index();
             $table->dateTime('recorded_at', 6)->index();
             $table->text('payload');
         });

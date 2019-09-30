@@ -49,7 +49,7 @@ final class LaravelMessageRepository implements MessageRepository
             $connection->table($this->table)->insert([
                 'event_id' => $headers[Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
                 'event_type' => $headers[Header::EVENT_TYPE],
-                'aggregate_root_id' => $headers[Header::AGGREGATE_ROOT_ID] ?? null,
+                'event_stream' => $headers[Header::AGGREGATE_ROOT_ID] ?? null,
                 'recorded_at' => $headers[Header::TIME_OF_RECORDING],
                 'payload' => json_encode($message),
             ]);
@@ -59,7 +59,7 @@ final class LaravelMessageRepository implements MessageRepository
     public function retrieveAll(AggregateRootId $id): Generator
     {
         $payloads = $this->connection()->table($this->table)
-            ->where('aggregate_root_id', $id->toString())
+            ->where('event_stream', $id->toString())
             ->orderBy('recorded_at')
             ->get('payload');
 
