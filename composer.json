@@ -10,11 +10,13 @@
     "authors": [
         {
             "name": "Dries Vints",
-            "email": "dries.vints@gmail.com"
+            "email": "dries.vints@gmail.com",
+            "homepage": "https://driesvints.com"
         },
         {
             "name": "Freek Van der Herten",
-            "email": "freek@spatie.be"
+            "email": "freek@spatie.be",
+            "homepage": "https://spatie.be"
         }
     ],
     "require": {
