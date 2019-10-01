@@ -136,4 +136,4 @@ Thanks to [Frank De Jonge](https://twitter.com/frankdejonge) for building [Event
 
 ## License
 
-The MIT License (MIT). Please see [the License File](LICENSE.md) for more information.
+The MIT License. Please see [the License File](LICENSE.md) for more information.
