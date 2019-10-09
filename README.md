@@ -118,7 +118,7 @@ And register the AggregateRootRepository in your `eventsauce.php` config file:
 
 ```php
 'repositories' => [
-    \App\Domain\Registration\RegistrationAggregateRootRepository::class,
+    App\Domain\Registration\RegistrationAggregateRootRepository::class,
 ],
 ```
 
