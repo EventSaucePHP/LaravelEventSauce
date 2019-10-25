@@ -23,7 +23,7 @@ class AggregateRootTestCaseTest extends AggregateRootTestCase
 
     public function handle(object $command)
     {
-        if($command instanceof RegisterUser) {
+        if ($command instanceof RegisterUser) {
             /** @var RegistrationAggregateRoot $aggregate */
             $aggregate = $this->repository->retrieve($this->aggregateRootId);
             $aggregate->registerUser($command);

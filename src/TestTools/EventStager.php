@@ -40,6 +40,7 @@ class EventStager
 
     /**
      * @param object ...$events
+     *
      * @return AggregateRootTestCase
      */
     public function stage(object ...$events): AggregateRootTestCase

@@ -20,11 +20,11 @@ use EventSauce\EventSourcing\Time\TestClock;
 use EventSauce\LaravelEventSauce\AggregateRootRepository;
 use EventSauce\LaravelEventSauce\Consumer;
 use Exception;
-use Tests\TestCase;
-use LogicException;
 use function get_class;
+use LogicException;
 use function method_exists;
 use function sprintf;
+use Tests\TestCase;
 
 /**
  * @method handle(...$arguments)
@@ -127,6 +127,7 @@ abstract class AggregateRootTestCase extends TestCase
 
     /**
      * @param object ...$events
+     *
      * @return $this
      */
     protected function given(object ...$events)
@@ -144,12 +145,13 @@ abstract class AggregateRootTestCase extends TestCase
 
     /**
      * @param array $arguments
+     *
      * @return $this
      */
     protected function when(...$arguments)
     {
         try {
-            if ( ! method_exists($this, 'handle')) {
+            if (! method_exists($this, 'handle')) {
                 throw new LogicException(sprintf('Class %s is missing a ::handle method.', get_class($this)));
             }
 
@@ -163,6 +165,7 @@ abstract class AggregateRootTestCase extends TestCase
 
     /**
      * @param object[] $events
+     *
      * @return $this
      */
     protected function then(object ...$events)
@@ -174,6 +177,7 @@ abstract class AggregateRootTestCase extends TestCase
 
     /**
      * @param \Exception $expectedException
+     *
      * @return $this
      */
     public function expectToFail(Exception $expectedException)
