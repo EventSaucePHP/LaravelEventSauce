@@ -1,0 +1,275 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EventSauce\LaravelEventSauce\TestTools;
+
+use EventSauce\EventSourcing\AggregateRootId;
+use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\DefaultHeadersDecorator;
+use EventSauce\EventSourcing\InMemoryMessageRepository;
+use EventSauce\EventSourcing\MessageDecorator;
+use EventSauce\EventSourcing\MessageDecoratorChain;
+use EventSauce\EventSourcing\MessageDispatcher;
+use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\EventSourcing\PointInTime;
+use EventSauce\EventSourcing\SynchronousMessageDispatcher;
+use EventSauce\EventSourcing\TestUtilities\ConsumerThatSerializesMessages;
+use EventSauce\EventSourcing\Time\Clock;
+use EventSauce\EventSourcing\Time\TestClock;
+use EventSauce\LaravelEventSauce\AggregateRootRepository;
+use EventSauce\LaravelEventSauce\Consumer;
+use Exception;
+use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
+use LogicException;
+use function get_class;
+use function method_exists;
+use function sprintf;
+
+/**
+ * @method handle(...$arguments)
+ */
+abstract class AggregateRootTestCase extends IlluminateTestCase
+{
+
+    /**
+     * Creates the application.
+     *
+     * Needs to be implemented by subclasses.
+     *
+     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
+     */
+    public function createApplication()
+    {
+
+    }
+
+    /**
+     * @var InMemoryMessageRepository
+     */
+    protected $messageRepository;
+
+    /**
+     * @var AggregateRootRepository
+     */
+    protected $repository;
+
+    /**
+     * @var Exception|null
+     */
+    private $caughtException;
+
+    /**
+     * @var object[]
+     */
+    private $expectedEvents = [];
+
+    /**
+     * @var Exception|null
+     */
+    private $theExpectedException;
+
+    /**
+     * @var TestClock
+     */
+    private $clock;
+
+    /**
+     * @var bool
+     */
+    private $assertedScenario = false;
+
+    /**
+     * @var AggregateRootId
+     */
+    protected $aggregateRootId;
+
+    /**
+     * @before
+     */
+    protected function setUpEventSauce()
+    {
+        $className = $this->aggregateRootClassName();
+        $this->clock = new TestClock();
+        $this->aggregateRootId = $this->newAggregateRootId();
+        $this->messageRepository = new InMemoryMessageRepository();
+        $dispatcher = $this->messageDispatcher();
+        $decorator = $this->messageDecorator();
+        $this->repository = $this->aggregateRootRepository(
+            $className,
+            $this->messageRepository,
+            $dispatcher,
+            $decorator
+        );
+        $this->expectedEvents = [];
+        $this->assertedScenario = false;
+        $this->theExpectedException = null;
+        $this->caughtException = null;
+    }
+
+    /**
+     * @after
+     */
+    protected function assertScenario()
+    {
+        // @codeCoverageIgnoreStart
+        if ($this->assertedScenario) {
+            return;
+        }
+        // @codeCoverageIgnoreEnd
+
+        try {
+            $this->assertExpectedException($this->theExpectedException, $this->caughtException);
+            $this->assertLastCommitEqualsEvents(...$this->expectedEvents);
+            $this->messageRepository->purgeLastCommit();
+        } finally {
+            $this->assertedScenario = true;
+            $this->theExpectedException = null;
+            $this->caughtException = null;
+        }
+    }
+
+    protected function aggregateRootId(): AggregateRootId
+    {
+        return $this->aggregateRootId;
+    }
+
+    abstract protected function newAggregateRootId(): AggregateRootId;
+
+    abstract protected function aggregateRootClassName(): string;
+
+    /**
+     * @param object ...$events
+     * @return $this
+     */
+    protected function given(object ...$events)
+    {
+        $this->repository->persistEvents($this->aggregateRootId(), count($events), ...$events);
+        $this->messageRepository->purgeLastCommit();
+
+        return $this;
+    }
+
+    public function on(AggregateRootId $id)
+    {
+        return new EventStager($id, $this->messageRepository, $this->repository, $this);
+    }
+
+    /**
+     * @param array $arguments
+     * @return $this
+     */
+    protected function when(...$arguments)
+    {
+        try {
+            if ( ! method_exists($this, 'handle')) {
+                throw new LogicException(sprintf('Class %s is missing a ::handle method.', get_class($this)));
+            }
+
+            $this->handle(...$arguments);
+        } catch (Exception $exception) {
+            $this->caughtException = $exception;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param object[] $events
+     * @return $this
+     */
+    protected function then(object ...$events)
+    {
+        $this->expectedEvents = $events;
+
+        return $this;
+    }
+
+    /**
+     * @param \Exception $expectedException
+     * @return $this
+     */
+    public function expectToFail(Exception $expectedException)
+    {
+        $this->theExpectedException = $expectedException;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function thenNothingShouldHaveHappened()
+    {
+        $this->expectedEvents = [];
+
+        return $this;
+    }
+
+    protected function assertLastCommitEqualsEvents(object ...$events)
+    {
+        self::assertEquals($events, $this->messageRepository->lastCommit(), 'Events are not equal.');
+    }
+
+    private function assertExpectedException(Exception $expectedException = null, Exception $caughtException = null)
+    {
+        if ($expectedException == $caughtException) {
+            return;
+        }
+
+        if (
+            null !== $caughtException && (
+                null === $expectedException ||
+                get_class($expectedException) !== get_class($caughtException))
+        ) {
+            throw $caughtException;
+        }
+
+        self::assertEquals([$expectedException], [$caughtException], '>> Exceptions are not equal.');
+    }
+
+    protected function pointInTime(): PointInTime
+    {
+        return $this->clock->pointInTime();
+    }
+
+    protected function clock(): Clock
+    {
+        return $this->clock;
+    }
+
+    protected function messageDispatcher(): MessageDispatcher
+    {
+        return new SynchronousMessageDispatcher(
+            new ConsumerThatSerializesMessages(),
+            ...$this->consumers()
+        );
+    }
+
+    /**
+     * @return Consumer[]
+     */
+    protected function consumers(): array
+    {
+        return [];
+    }
+
+    private function messageDecorator(): MessageDecorator
+    {
+        return new MessageDecoratorChain(new DefaultHeadersDecorator());
+    }
+
+    protected function aggregateRootRepository(
+        string $className,
+        MessageRepository $repository,
+        MessageDispatcher $dispatcher,
+        MessageDecorator $decorator
+    ): \EventSauce\EventSourcing\ConstructingAggregateRootRepository {
+        return new ConstructingAggregateRootRepository(
+            $className,
+            $repository,
+            $dispatcher,
+            $decorator
+        );
+    }
+}
