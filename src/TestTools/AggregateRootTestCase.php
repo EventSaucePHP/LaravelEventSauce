@@ -20,7 +20,7 @@ use EventSauce\EventSourcing\Time\TestClock;
 use EventSauce\LaravelEventSauce\AggregateRootRepository;
 use EventSauce\LaravelEventSauce\Consumer;
 use Exception;
-use Illuminate\Foundation\Testing\TestCase as IlluminateTestCase;
+use Tests\TestCase;
 use LogicException;
 use function get_class;
 use function method_exists;
@@ -29,21 +29,8 @@ use function sprintf;
 /**
  * @method handle(...$arguments)
  */
-abstract class AggregateRootTestCase extends IlluminateTestCase
+abstract class AggregateRootTestCase extends TestCase
 {
-
-    /**
-     * Creates the application.
-     *
-     * Needs to be implemented by subclasses.
-     *
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
-     */
-    public function createApplication()
-    {
-
-    }
-
     /**
      * @var InMemoryMessageRepository
      */
