@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EventSauce\LaravelEventSauce\TestTools;
+namespace EventSauce\LaravelEventSauce\Testing;
 
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\InMemoryMessageRepository;

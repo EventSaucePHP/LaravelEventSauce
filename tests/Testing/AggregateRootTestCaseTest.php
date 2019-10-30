@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\TestTools;
+namespace Tests\Testing;
 
 use EventSauce\EventSourcing\AggregateRootId;
-use EventSauce\LaravelEventSauce\TestTools\AggregateRootTestCase;
+use EventSauce\LaravelEventSauce\Testing\AggregateRootTestCase;
 use Tests\Fixtures\RegisterUser;
 use Tests\Fixtures\RegistrationAggregateRoot;
 use Tests\Fixtures\RegistrationAggregateRootId;
