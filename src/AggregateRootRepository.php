@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce;
 
-use EventSauce\EventSourcing\AggregateRoot;
-use EventSauce\EventSourcing\AggregateRootId;
-use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
-use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
-use EventSauce\EventSourcing\MessageDispatcherChain;
-use EventSauce\EventSourcing\MessageDecorator;
-use EventSauce\EventSourcing\MessageDecoratorChain;
 use Generator;
 use LogicException;
+use EventSauce\EventSourcing\AggregateRoot;
+use EventSauce\EventSourcing\AggregateRootId;
+use EventSauce\EventSourcing\MessageDecorator;
+use EventSauce\EventSourcing\MessageDecoratorChain;
+use EventSauce\EventSourcing\MessageDispatcherChain;
+use EventSauce\EventSourcing\DefaultHeadersDecorator;
+use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
@@ -101,7 +102,11 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
 	private function instantiateDecorators(): Generator
 	{
-		// Ensure
+		// Ensure DefaultHeadersDecorator is present
+		if (!in_array(DefaultHeadersDecorator::class, $this->decorators)) {
+			array_push($this->decorators, DefaultHeadersDecorator::class);
+		}
+
 		foreach ($this->decorators as $decorator) {
 			yield app($decorator);
 		}
