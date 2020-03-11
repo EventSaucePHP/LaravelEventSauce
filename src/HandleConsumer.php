@@ -13,10 +13,10 @@ use Illuminate\Queue\InteractsWithQueue;
 
 final class HandleConsumer implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue;
+    use Queueable;
 
-    /** @var string */
-    private $consumer;
+    private string $consumer;
 
     /** @var Message[] */
     private $messages = [];

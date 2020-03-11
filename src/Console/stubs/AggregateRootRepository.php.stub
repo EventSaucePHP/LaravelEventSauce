@@ -9,14 +9,11 @@ use EventSauce\LaravelEventSauce\AggregateRootRepository;
 /** @method \{{ namespace }}\{{ aggregateRoot }} retrieve(\{{ namespace }}\{{ aggregateRoot }}Id $aggregateRootId) */
 final class {{ aggregateRoot }}Repository extends AggregateRootRepository
 {
-    /** @var string */
-    protected $aggregateRoot = {{ aggregateRoot }}::class;
+    protected string $aggregateRoot = {{ aggregateRoot }}::class;
 
-    /** @var string */
-    protected $table = '{{ table }}';
+    protected string $table = '{{ table }}';
 
-    /** @var array */
-    protected $consumers = [
+    protected array $consumers = [
 
     ];
 }

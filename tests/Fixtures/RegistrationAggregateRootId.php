@@ -10,8 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 
 final class RegistrationAggregateRootId implements AggregateRootId
 {
-    /** @var string */
-    private $identifier;
+    private string $identifier;
 
     public function __construct(string $identifier)
     {

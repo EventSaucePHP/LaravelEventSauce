@@ -16,8 +16,7 @@ final class GenerateCommand extends Command
 
     protected $description = 'Generate commands and events for aggregate roots.';
 
-    /** @var Filesystem */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     public function __construct(Filesystem $files)
     {

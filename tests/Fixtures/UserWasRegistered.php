@@ -8,11 +8,9 @@ use EventSauce\EventSourcing\Serialization\SerializablePayload;
 
 final class UserWasRegistered implements SerializablePayload
 {
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var string */
-    private $email;
+    private string $email;
 
     public function __construct(string $name, string $email)
     {

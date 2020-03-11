@@ -144,21 +144,23 @@ final class RepositoryWithoutAggregateRootProperty extends AggregateRootReposito
 
 final class RepositoryWithNonAggregateRoot extends AggregateRootRepository
 {
-    protected $aggregateRoot = Foo::class;
+    protected string $aggregateRoot = Foo::class;
 }
 
-final class Foo {}
+final class Foo
+{
+}
 
 final class RepositoryWithCustomConnection extends AggregateRootRepository
 {
-    protected $aggregateRoot = RegistrationAggregateRoot::class;
+    protected string $aggregateRoot = RegistrationAggregateRoot::class;
 
-    protected $connection = 'custom';
+    protected string $connection = 'custom';
 }
 
 final class RepositoryWithCustomTable extends AggregateRootRepository
 {
-    protected $aggregateRoot = RegistrationAggregateRoot::class;
+    protected string $aggregateRoot = RegistrationAggregateRoot::class;
 
-    protected $table = 'event_store';
+    protected string $table = 'event_store';
 }

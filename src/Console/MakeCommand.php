@@ -11,8 +11,7 @@ use Illuminate\Support\Str;
 
 abstract class MakeCommand extends Command
 {
-    /** @var Filesystem */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     public function __construct(Filesystem $files)
     {

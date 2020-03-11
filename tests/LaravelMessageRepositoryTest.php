@@ -13,8 +13,7 @@ class LaravelMessageRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @var LaravelMessageRepository */
-    private $repository;
+    private LaravelMessageRepository $repository;
 
     protected function setUp(): void
     {

@@ -12,8 +12,7 @@ final class RegistrationAggregateRoot implements AggregateRoot
 {
     use AggregateRootBehaviour;
 
-    /** @var array */
-    private $registered = [];
+    private array $registered = [];
 
     public function registerUser(RegisterUser $command): void
     {

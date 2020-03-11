@@ -18,24 +18,20 @@ use Ramsey\Uuid\Uuid;
 
 final class LaravelMessageRepository implements MessageRepository
 {
-    /** @var DatabaseManager */
-    private $database;
+    private DatabaseManager $database;
 
-    /** @var MessageSerializer */
-    private $serializer;
+    private MessageSerializer $serializer;
 
-    /** @var string */
-    private $connection;
+    private string $connection;
 
-    /** @var string */
-    private $table;
+    private string $table;
 
     public function __construct(DatabaseManager $database, MessageSerializer $serializer, Config $config)
     {
         $this->database = $database;
         $this->serializer = $serializer;
-        $this->connection = $config->get('eventsauce.connection');
-        $this->table = $config->get('eventsauce.table');
+        $this->connection = (string) $config->get('eventsauce.connection');
+        $this->table = (string) $config->get('eventsauce.table');
     }
 
     public function persist(Message ...$messages)
@@ -69,9 +65,12 @@ final class LaravelMessageRepository implements MessageRepository
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
     {
-        throw new Exception("Snapshotting not supported yet.");
+        throw new Exception('Snapshotting not supported yet.');
     }
 
     private function connection(): ConnectionInterface

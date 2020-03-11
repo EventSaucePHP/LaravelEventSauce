@@ -38,6 +38,5 @@ class GenerateCommandTest extends TestCase
 
 class UndefinedDefinitionFileRepository extends AggregateRootRepository
 {
-    /** @var string */
-    protected static $inputFile = 'foo.php';
+    protected static string $inputFile = 'foo.php';
 }

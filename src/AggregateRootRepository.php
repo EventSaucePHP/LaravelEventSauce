@@ -13,30 +13,23 @@ use LogicException;
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
-    /** @var LaravelMessageRepository */
-    private $messageRepository;
+    private LaravelMessageRepository $messageRepository;
 
-    /** @var string */
-    protected $aggregateRoot;
+    protected string $aggregateRoot = '';
 
-    /** @var array */
-    protected $consumers = [];
+    protected array $consumers = [];
 
-    /** @var string */
-    protected $connection;
+    protected string $connection = '';
 
-    /** @var string */
-    protected $table;
+    protected string $table = '';
 
-    /** @var string */
-    protected static $inputFile = '';
+    protected static string $inputFile = '';
 
-    /** @var string */
-    protected static $outputFile = '';
+    protected static string $outputFile = '';
 
     public function __construct(LaravelMessageRepository $messageRepository)
     {
-        if ($this->aggregateRoot === null || ! is_a($this->aggregateRoot, AggregateRoot::class, true)) {
+        if (! is_a($this->aggregateRoot, AggregateRoot::class, true)) {
             throw new LogicException('You have to set an aggregate root before the repository can be initialized.');
         }
 
