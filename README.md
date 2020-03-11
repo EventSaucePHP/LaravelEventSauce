@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://eventsauce.io/static/logo.svg" height="120px" width="120px">
+    <img src="https://eventsauce.io/static/logo.svg" height="100px" width="100px">
 </p>
 
 <p align="center">
