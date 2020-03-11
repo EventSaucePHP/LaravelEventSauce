@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/eventsauce/laravel-eventsauce/actions">
-        <img src="https://github.com/eventsauce/laravel-eventsauce/workflows/tests/badge.svg" alt="Build Status">
+    <a href="https://github.com/EventSaucePHP/LaravelEventSauce/actions">
+        <img src="https://github.com/EventSaucePHP/LaravelEventSauce/workflows/tests/badge.svg" alt="Build Status">
     </a>
     <a href="https://packagist.org/packages/eventsauce/laravel-eventsauce">
         <img src="https://img.shields.io/packagist/v/eventsauce/laravel-eventsauce.svg" alt="Packagist Version">
