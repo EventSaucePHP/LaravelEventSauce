@@ -9,6 +9,7 @@ use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
+use Exception;
 use Generator;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Database\ConnectionInterface;
@@ -66,6 +67,11 @@ final class LaravelMessageRepository implements MessageRepository
         foreach ($payloads as $payload) {
             yield from $this->serializer->unserializePayload(json_decode($payload->payload, true));
         }
+    }
+
+    public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
+    {
+        throw new Exception("Snapshotting not supported yet.");
     }
 
     private function connection(): ConnectionInterface

@@ -1,10 +1,8 @@
-<p>
+<p align="center">
     <img src="https://eventsauce.io/static/logo.svg" height="120px" width="120px">
 </p>
 
-# Laravel EventSauce
-
-<p>
+<p align="center">
     <a href="https://packagist.org/packages/eventsauce/laravel-eventsauce">
         <img src="https://img.shields.io/packagist/v/eventsauce/laravel-eventsauce.svg" alt="Packagist Version">
     </a>
@@ -15,6 +13,8 @@
         <img src="https://img.shields.io/packagist/dt/eventsauce/laravel-eventsauce.svg" alt="Downloads">
     </a>
 </p>
+
+# Laravel EventSauce
 
 This library is a work in progress. More docs coming soon...
 
@@ -32,8 +32,8 @@ This library is a work in progress. More docs coming soon...
 
 ## Requirements
 
-- PHP ^7.3
-- Laravel ^6.0
+- PHP ^7.4
+- Laravel ^7.0
 
 ## Installation
 
