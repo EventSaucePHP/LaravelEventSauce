@@ -2,7 +2,13 @@
 
 This changelog follows [the Keep a Changelog standard](https://keepachangelog.com).
 
-## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.2.0...master)
+## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.2.1...master)
+
+
+## [0.2.1](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.2.0...0.2.1)
+
+### Fixed
+- Fix aggregate root version ([#15](https://github.com/EventSaucePHP/LaravelEventSauce/pull/15))
 
 
 ## [0.2.0](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.1.0...0.2.0)
