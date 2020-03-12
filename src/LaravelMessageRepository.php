@@ -59,13 +59,12 @@ final class LaravelMessageRepository implements MessageRepository
             ->where('event_stream', $id->toString())
             ->orderBy('recorded_at')
             ->get('payload');
-        $payloadsCount = $payloads->count();
 
         foreach ($payloads as $payload) {
             yield from $this->serializer->unserializePayload(json_decode($payload->payload, true));
-
-            return $payloadsCount;
         }
+
+        return $payloads->count();
     }
 
     /**
