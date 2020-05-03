@@ -31,14 +31,14 @@ abstract class MakeCommand extends Command
             return $name;
         }
 
-        return $this->formatClassName(trim($rootNamespace, '\\').'\\'.$name);
+        return $this->formatClassName(trim($rootNamespace, '\\') . '\\' . $name);
     }
 
     protected function getPath(string $name): string
     {
         $name = Str::replaceFirst($this->laravel->getNamespace(), '', $name);
 
-        return $this->laravel['path'].'/'.str_replace('\\', '/', $name).'.php';
+        return $this->laravel['path'] . '/' . str_replace('\\', '/', $name) . '.php';
     }
 
     protected function ensureValidPaths(array $paths): void
@@ -61,7 +61,7 @@ abstract class MakeCommand extends Command
 
     protected function getStubContent(string $stubName, array $replacements): string
     {
-        $content = $this->filesystem->get(__DIR__."/stubs/{$stubName}.php.stub");
+        $content = $this->filesystem->get(__DIR__ . "/stubs/{$stubName}.php.stub");
 
         foreach ($replacements as $search => $replace) {
             $content = str_replace("{{ {$search} }}", $replace, $content);
