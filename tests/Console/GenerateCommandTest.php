@@ -20,7 +20,7 @@ class GenerateCommandTest extends TestCase
 
         $this->artisan('eventsauce:generate');
 
-        $this->assertFileExists(__DIR__.'/../Fixtures/commands_and_events.php');
+        $this->assertFileExists(__DIR__ . '/../Fixtures/commands_and_events.php');
     }
 
     /** @test */

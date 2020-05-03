@@ -15,7 +15,7 @@ final class RegistrationAggregateRootRepository extends AggregateRootRepository
         SendConfirmationNotification::class,
     ];
 
-    protected static string $inputFile = __DIR__.'/commands_and_events.yml';
+    protected static string $inputFile = __DIR__ . '/commands_and_events.yml';
 
-    protected static string $outputFile = __DIR__.'/commands_and_events.php';
+    protected static string $outputFile = __DIR__ . '/commands_and_events.php';
 }
