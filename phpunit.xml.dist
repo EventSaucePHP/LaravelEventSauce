@@ -8,6 +8,6 @@
     <php>
         <env name="DB_CONNECTION" value="testing"/>
         <env name="EVENTSAUCE_CODE_INPUT" value="../../../../tests/Fixtures/commands_and_events.yml"/>
-        <env name="MAIL_DRIVER" value="array"/>
+        <env name="MAIL_MAILER" value="array"/>
     </php>
 </phpunit>
