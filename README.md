@@ -40,6 +40,14 @@ This library is a work in progress. More docs coming soon...
 
 ## Installation
 
+Before installing a new package it's always a good idea to clear your config cache:
+
+```bash
+php artisan config:clear
+```
+
+Then install the package with composer:
+
 You can install the library through [Composer](https://getcomposer.org). This will also install [the main EventSauce library](https://github.com/EventSaucePHP/EventSauce).
 
 ```bash
