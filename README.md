@@ -10,10 +10,10 @@
         <img src="https://github.com/EventSaucePHP/LaravelEventSauce/workflows/Code%20Style/badge.svg" alt="Code Style">
     </a>
     <a href="https://packagist.org/packages/eventsauce/laravel-eventsauce">
-        <img src="https://img.shields.io/packagist/v/eventsauce/laravel-eventsauce.svg" alt="Packagist Version">
+        <img src="https://img.shields.io/packagist/v/eventsauce/laravel-eventsauce.svg" alt="Latest Stable Version">
     </a>
     <a href="https://packagist.org/packages/eventsauce/laravel-eventsauce">
-        <img src="https://img.shields.io/packagist/dt/eventsauce/laravel-eventsauce.svg" alt="Downloads">
+        <img src="https://img.shields.io/packagist/dt/eventsauce/laravel-eventsauce.svg" alt="Total Downloads">
     </a>
 </p>
 
