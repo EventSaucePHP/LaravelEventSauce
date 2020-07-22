@@ -150,7 +150,7 @@ Check out the [CHANGELOG](CHANGELOG.md) in this repository for all the recent ch
 
 ## Maintainers
 
-Blade Icons is developed and maintained by [Dries Vints](https://driesvints.com).
+Laravel EventSauce is developed and maintained by [Dries Vints](https://driesvints.com).
 
 ## Acknowledgments
 
