@@ -29,7 +29,10 @@ This library is a work in progress. More docs coming soon...
     - [Migrations](#migrations)
     - [Default Connection](#default-connection)
     - [Default Table](#default-table)
-- [Generating Commands & Events](#generating-commands--events)
+- [Usage](#usage)
+    - [Generating Commands & Events](#generating-commands--events)
+- [Changelog](#changelog)
+- [Maintainers](#maintainers)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
 
@@ -90,7 +93,9 @@ The default table name for your domain messages can be set with the `EVENTSAUCE_
 EVENTSAUCE_TABLE=event_store
 ```
 
-## Generating Commands & Events
+## Usage
+
+### Generating Commands & Events
 
 EventSauce can generate commands and events for you so you don't need to write these yourself. First, define a `commands_and_events.yml` file which contains your definitions:
 
@@ -139,10 +144,18 @@ php artisan eventsauce:generate
 
 For more info on creating events and commands with EventSauce, as well as how to define different types, see: https://eventsauce.io/docs/getting-started/create-events-and-commands
 
+## Changelog
+
+Check out the [CHANGELOG](CHANGELOG.md) in this repository for all the recent changes.
+
+## Maintainers
+
+Blade Icons is developed and maintained by [Dries Vints](https://driesvints.com).
+
 ## Acknowledgments
 
 Thanks to [Frank De Jonge](https://twitter.com/frankdejonge) for building [EventSauce](https://eventsauce.io). Thanks to [Freek Van der Herten](https://twitter.com/freekmurze) and [Spatie's Laravel EventSauce library](https://github.com/spatie/laravel-eventsauce) for inspiration to some of the features in this package.
 
 ## License
 
-The MIT License. Please see [the License File](LICENSE.md) for more information.
+Laravel EventSauce is open-sourced software licensed under [the MIT license](LICENSE.md).
