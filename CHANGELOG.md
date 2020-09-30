@@ -2,7 +2,7 @@
 
 This changelog follows [the Keep a Changelog standard](https://keepachangelog.com).
 
-## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.2.2...master)
+## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.2.2...main)
 
 
 ## [0.2.2](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.2.1...0.2.2)
