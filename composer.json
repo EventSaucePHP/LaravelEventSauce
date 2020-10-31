@@ -43,14 +43,16 @@
             "Tests\\": "tests"
         }
     },
-    "config": {
-        "sort-packages": true
-    },
     "extra": {
         "laravel": {
             "providers": [
                 "EventSauce\\LaravelEventSauce\\EventSauceServiceProvider"
             ]
         }
-    }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
