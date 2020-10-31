@@ -30,9 +30,9 @@ class MakeAggregateRootCommandTest extends TestCase
 
         $this->artisan('make:aggregate-root', ['namespace' => 'Domain/Registration']);
 
-        $this->assertFileExists($domainDirectory . '/Registration.php');
-        $this->assertFileExists($domainDirectory . '/RegistrationId.php');
-        $this->assertFileExists($domainDirectory . '/RegistrationRepository.php');
+        $this->assertFileExists($domainDirectory.'/Registration.php');
+        $this->assertFileExists($domainDirectory.'/RegistrationId.php');
+        $this->assertFileExists($domainDirectory.'/RegistrationRepository.php');
         $this->assertFileExists($migrationFile);
 
         $filesystem->delete($migrationFile);
