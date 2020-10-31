@@ -19,10 +19,10 @@ final class MakeAggregateRootCommand extends MakeCommand
         $aggregateRootClass = $this->formatClassName($this->argument('namespace'));
         $aggregateRootPath = $this->getPath($aggregateRootClass);
 
-        $aggregateRootIdClass = $this->formatClassName($this->argument('namespace') . 'Id');
+        $aggregateRootIdClass = $this->formatClassName($this->argument('namespace').'Id');
         $aggregateRootIdPath = $this->getPath($aggregateRootIdClass);
 
-        $aggregateRootRepositoryClass = $this->formatClassName($this->argument('namespace') . 'Repository');
+        $aggregateRootRepositoryClass = $this->formatClassName($this->argument('namespace').'Repository');
         $aggregateRootRepositoryPath = $this->getPath($aggregateRootRepositoryClass);
 
         try {
@@ -40,8 +40,8 @@ final class MakeAggregateRootCommand extends MakeCommand
         $replacements = [
             'aggregateRoot' => $aggregateRoot = class_basename($aggregateRootClass),
             'namespace' => substr($aggregateRootClass, 0, strrpos($aggregateRootClass, '\\')),
-            'table' => Str::snake(class_basename($aggregateRootClass)) . '_domain_messages',
-            'migration' => 'Create' . ucfirst(class_basename($aggregateRootClass)) . 'DomainMessagesTable',
+            'table' => Str::snake(class_basename($aggregateRootClass)).'_domain_messages',
+            'migration' => 'Create'.ucfirst(class_basename($aggregateRootClass)).'DomainMessagesTable',
         ];
 
         $this->makeFiles([
