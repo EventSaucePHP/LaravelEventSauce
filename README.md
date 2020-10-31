@@ -6,6 +6,9 @@
     <a href="https://github.com/EventSaucePHP/LaravelEventSauce/actions?query=workflow%3ATests">
         <img src="https://github.com/EventSaucePHP/LaravelEventSauce/workflows/Tests/badge.svg" alt="Build Status">
     </a>
+    <a href="https://github.styleci.io/repos/146869722">
+        <img src="https://github.styleci.io/repos/146869722/shield?style=flat" alt="Code Style">
+    </a>
     <a href="https://packagist.org/packages/eventsauce/laravel-eventsauce">
         <img src="https://img.shields.io/packagist/v/eventsauce/laravel-eventsauce.svg" alt="Latest Stable Version">
     </a>
