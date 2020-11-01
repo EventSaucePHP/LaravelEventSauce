@@ -39,7 +39,7 @@ This library is a work in progress. More docs coming soon...
 ## Requirements
 
 - PHP ^7.4
-- Laravel ^7.0
+- Laravel ^8.0
 
 ## Installation
 
