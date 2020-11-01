@@ -63,7 +63,7 @@ final class MakeAggregateRootCommand extends MakeCommand
 
         $this->filesystem->put(
             $this->laravel->databasePath("migrations/{$filename}"),
-            $this->getStubContent('create_domain_messages_table', $replacements)
+            $this->getStubContent('create_domain_messages_table', $replacements),
         );
     }
 }

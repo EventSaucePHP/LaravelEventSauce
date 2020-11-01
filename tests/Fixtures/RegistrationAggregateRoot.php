@@ -21,7 +21,7 @@ final class RegistrationAggregateRoot implements AggregateRoot
         }
 
         $this->recordThat(
-            new UserWasRegistered($command->name(), $email)
+            new UserWasRegistered($command->name(), $email),
         );
     }
 

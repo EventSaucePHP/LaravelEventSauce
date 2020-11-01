@@ -32,7 +32,7 @@ final class MakeConsumerCommand extends MakeCommand
             [
                 'consumer' => class_basename($consumerClass),
                 'namespace' => substr($consumerClass, 0, strrpos($consumerClass, '\\')),
-            ]
+            ],
         );
 
         $this->info("{$consumerClass} class created successfully!");

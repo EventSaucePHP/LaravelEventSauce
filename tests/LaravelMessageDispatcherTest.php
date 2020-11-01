@@ -26,7 +26,7 @@ class LaravelMessageDispatcherTest extends TestCase
     private function dispatcher(): LaravelMessageDispatcher
     {
         return new LaravelMessageDispatcher(
-            SendConfirmationNotification::class
+            SendConfirmationNotification::class,
         );
     }
 }

@@ -66,10 +66,10 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             $this->messageRepository,
             new MessageDispatcherChain(
                 new LaravelMessageDispatcher(
-                    ...$this->consumers
+                    ...$this->consumers,
                 ),
-                new EventMessageDispatcher()
-            )
+                new EventMessageDispatcher(),
+            ),
         );
     }
 

@@ -126,7 +126,7 @@ class AggregateRootRepositoryTest extends TestCase
         $registration = $repository->retrieve(RegistrationAggregateRootId::create());
 
         $registration->registerUser(
-            new RegisterUser('Dries Vints', 'dries.vints@gmail.com')
+            new RegisterUser('Dries Vints', 'dries.vints@gmail.com'),
         );
 
         $repository->persist($registration);
