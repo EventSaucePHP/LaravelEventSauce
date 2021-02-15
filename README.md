@@ -38,8 +38,8 @@ This library is a work in progress. More docs coming soon...
 
 ## Requirements
 
-- PHP ^7.4
-- Laravel ^8.0
+- PHP 7.4 or higher
+- Laravel 8.0 or higher
 
 ## Installation
 
