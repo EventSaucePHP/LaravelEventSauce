@@ -95,6 +95,48 @@ EVENTSAUCE_TABLE=event_store
 
 ## Usage
 
+### Create aggregate root & repository
+
+Use the `php artisan make:aggregate-root YourAggregateRootName` command to generate skeleton classes for your aggregate root. 
+Generated classes: 
+* Aggregate root
+* Aggregate root repository
+* Aggregate root Id
+* migration
+
+### Create consumers
+
+Use the `php artisan make:consumer YourConsumerName` command to generate a consumer.
+Within this consumer you can create methods following the `handle{EventName}` specification.
+
+For example, if you want to handle the `UserRegistered` event, the method within the consumer would look like:
+```php
+public function handleUserRegistered(UserRegistered $userRegistered, Message $message)
+{
+    $idOfAggregateRoot = $message->aggregateRootId()->toString();
+}
+```
+ 
+ By default, consumers are handled synchronous. To queue a consumer implement `ShouldQueue` on your consumer class.
+ 
+ ### Registering consumers
+ 
+ Consumers can be registered within the `$consumers` property on the AggregateRootRepository. 
+  
+ The queue consumers should run on can be set using the `$queue` property on the AggregateRootRepository.
+ 
+```php
+ final class RegistrationAggregateRootRepository extends AggregateRootRepository
+ {
+     ...
+     protected array $consumers = [
+        \Tests\Fixtures\SendConfirmationNotification::class
+    ];
+    
+    protected string $queue = 'user-aggregate-root';
+ }
+```
+
 ### Generating Commands & Events
 
 EventSauce can generate commands and events for you so you don't need to write these yourself. First, define a `commands_and_events.yml` file which contains your definitions:
