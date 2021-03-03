@@ -13,19 +13,32 @@ final class LaravelMessageDispatcher implements MessageDispatcher
     /** @var string[] */
     private $consumers;
 
+    private string $queue = '';
+
     public function __construct(string ...$consumers)
     {
         $this->consumers = $consumers;
+    }
+
+    public function setQueue(string $queue): self
+    {
+        $this->queue = $queue;
+        return $this;
     }
 
     public function dispatch(Message ...$messages)
     {
         foreach ($this->consumers as $consumer) {
             if (is_a($consumer, ShouldQueue::class, true)) {
-                dispatch(new HandleConsumer($consumer, ...$messages));
-            } else {
-                dispatch_now(new HandleConsumer($consumer, ...$messages));
+                $dispatch = dispatch(new HandleConsumer($consumer, ...$messages));
+
+                if($this->queue){
+                    $dispatch->onQueue($this->queue);
+                }
+                continue;
             }
+
+            dispatch_now(new HandleConsumer($consumer, ...$messages));
         }
     }
 }
