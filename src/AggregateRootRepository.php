@@ -64,7 +64,6 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     private function repository(): EventSauceAggregateRootRepository
     {
-
         return new ConstructingAggregateRootRepository(
             $this->aggregateRoot,
             $this->messageRepository,

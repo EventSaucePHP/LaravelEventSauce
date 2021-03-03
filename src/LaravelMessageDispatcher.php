@@ -32,7 +32,7 @@ final class LaravelMessageDispatcher implements MessageDispatcher
             if (is_a($consumer, ShouldQueue::class, true)) {
                 $dispatch = dispatch(new HandleConsumer($consumer, ...$messages));
 
-                if($this->queue){
+                if ($this->queue) {
                     $dispatch->onQueue($this->queue);
                 }
                 continue;

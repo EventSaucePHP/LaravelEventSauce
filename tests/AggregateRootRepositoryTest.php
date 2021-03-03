@@ -93,7 +93,7 @@ class AggregateRootRepositoryTest extends TestCase
         Bus::fake();
         $this->persistAggregate(RepositoryWithCustomQueue::class);
 
-        Bus::assertDispatched(HandleConsumer::class, function (HandleConsumer $job){
+        Bus::assertDispatched(HandleConsumer::class, function (HandleConsumer $job) {
             $this->assertEquals('eventsource-queue', $job->queue);
             return true;
         });
@@ -187,6 +187,6 @@ final class RepositoryWithCustomQueue extends AggregateRootRepository
     protected string $queue = 'eventsource-queue';
 
     protected array $consumers = [
-        QueueableConsumer::class
+        QueueableConsumer::class,
     ];
 }
