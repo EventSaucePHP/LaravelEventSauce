@@ -23,6 +23,7 @@ final class LaravelMessageDispatcher implements MessageDispatcher
     public function setQueue(string $queue): self
     {
         $this->queue = $queue;
+
         return $this;
     }
 
