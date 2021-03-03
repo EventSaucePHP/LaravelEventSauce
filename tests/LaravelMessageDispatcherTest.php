@@ -35,7 +35,7 @@ class LaravelMessageDispatcherTest extends TestCase
 
         Bus::assertDispatched(HandleConsumer::class, function (HandleConsumer $job) {
             $this->assertEquals('eventsource-queue', $job->queue);
-            
+
             return true;
         });
     }
