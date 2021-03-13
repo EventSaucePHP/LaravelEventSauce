@@ -20,13 +20,6 @@ final class LaravelMessageDispatcher implements MessageDispatcher
         $this->consumers = $consumers;
     }
 
-    public function setQueue(string $queue): self
-    {
-        $this->queue = $queue;
-
-        return $this;
-    }
-
     public function dispatch(Message ...$messages)
     {
         foreach ($this->consumers as $consumer) {
@@ -36,10 +29,16 @@ final class LaravelMessageDispatcher implements MessageDispatcher
                 if ($this->queue) {
                     $dispatch->onQueue($this->queue);
                 }
-                continue;
+            } else {
+                dispatch_now(new HandleConsumer($consumer, ...$messages));
             }
-
-            dispatch_now(new HandleConsumer($consumer, ...$messages));
         }
+    }
+
+    public function onQueue(string $queue): self
+    {
+        $this->queue = $queue;
+
+        return $this;
     }
 }

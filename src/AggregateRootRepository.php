@@ -22,9 +22,9 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     protected string $connection = '';
 
-    protected string $queue = '';
-
     protected string $table = '';
+
+    protected string $queue = '';
 
     protected static string $inputFile = '';
 
@@ -91,7 +91,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         );
 
         if ($this->queue) {
-            $dispatcher->setQueue($this->queue);
+            $dispatcher->onQueue($this->queue);
         }
 
         return $dispatcher;

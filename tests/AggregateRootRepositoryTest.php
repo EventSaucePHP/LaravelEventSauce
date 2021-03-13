@@ -91,6 +91,7 @@ class AggregateRootRepositoryTest extends TestCase
     public function it_can_dispatch_its_consumers_on_a_configured_queue()
     {
         Bus::fake();
+
         $this->persistAggregate(RepositoryWithCustomQueue::class);
 
         Bus::assertDispatched(HandleConsumer::class, function (HandleConsumer $job) {

@@ -31,7 +31,9 @@ class LaravelMessageDispatcherTest extends TestCase
 
         Bus::fake();
 
-        $this->dispatcher(QueueableConsumer::class)->setQueue('eventsource-queue')->dispatch($message);
+        $this->dispatcher(QueueableConsumer::class)
+            ->onQueue('eventsource-queue')
+            ->dispatch($message);
 
         Bus::assertDispatched(HandleConsumer::class, function (HandleConsumer $job) {
             $this->assertEquals('eventsource-queue', $job->queue);
