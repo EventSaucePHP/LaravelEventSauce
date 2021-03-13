@@ -1,5 +1,7 @@
 <p align="center">
-    <img src="https://eventsauce.io/static/logo.svg" height="100px" width="100px">
+    <a href="https://eventsauce.io">
+        <img src="https://eventsauce.io/static/logo.svg" height="100px" width="100px">
+    </a>
 </p>
 
 <p align="center">
@@ -19,7 +21,11 @@
 
 # Laravel EventSauce
 
-This library is a work in progress. More docs coming soon...
+This library allows you to easily integrate [EventSauce](https://eventsauce.io) with your Laravel application. It takes out the tedious work of having to set up your own message dispatcher and provides an easy API to set up Aggregate Roots, Aggregate Root Repositories, Consumers, and more. It also comes with a range of scaffolding console commands to easily generate the boilerplate needed to get started with an Event Sourced application. 
+
+Thanks to [Frank de Jonge](https://github.com/frankdejonge) for building and maintaining the main [EventSauce](https://eventsauce.io) project.
+
+While already usable, this library is currently still a work in progress. More documentation and features will be added over time. We appreciate pull requests that help extend and improve this project.
 
 ## Table of Contents
 
@@ -29,8 +35,14 @@ This library is a work in progress. More docs coming soon...
     - [Migrations](#migrations)
     - [Default Connection](#default-connection)
     - [Default Table](#default-table)
-- [Usage](#usage)
+- [Scaffolding](#scaffolding)
+    - [Generating Aggregate Roots](#generating-aggregate-roots)
+    - [Generating Consumers](#generating-consumers)
     - [Generating Commands & Events](#generating-commands--events)
+- [Usage](#usage)
+    - [Aggregate Roots](#aggregate-roots)
+    - [Aggregate Root Repositories](#aggregate-root-repositories)
+    - [Consumers](#consumers)
 - [Changelog](#changelog)
 - [Maintainers](#maintainers)
 - [Acknowledgments](#acknowledgments)
@@ -93,49 +105,43 @@ The default table name for your domain messages can be set with the `EVENTSAUCE_
 EVENTSAUCE_TABLE=event_store
 ```
 
-## Usage
+## Scaffolding
 
-### Create aggregate root & repository
+Laravel EventSauce comes with some commands that you can use to scaffold objects and files which you'll need to build your Event Sourced app. These commands take out the tedious work of writing these yourself and instead let you focus on actually writing your domain logic.
 
-Use the `php artisan make:aggregate-root YourAggregateRootName` command to generate skeleton classes for your aggregate root. 
-Generated classes: 
-* Aggregate root
-* Aggregate root repository
-* Aggregate root Id
-* migration
+### Generating Aggregate Roots
 
-### Create consumers
+Laravel EventSauce can generate aggregate roots and its related files for you. By using the `make:aggregate-root` command, you can generate the following objects and files:
 
-Use the `php artisan make:consumer YourConsumerName` command to generate a consumer.
-Within this consumer you can create methods following the `handle{EventName}` specification.
+- The `AggregateRoot`
+- The `AggregateRootId`
+- The `AggregateRootRepository`
+- The migration file
 
-For example, if you want to handle the `UserRegistered` event, the method within the consumer would look like:
-```php
-public function handleUserRegistered(UserRegistered $userRegistered, Message $message)
-{
-    $idOfAggregateRoot = $message->aggregateRootId()->toString();
-}
+To generate these files for a "Registration" process, run the following command:
+
+```bash
+php artisan make:aggregate-root Domain/Registration
 ```
- 
- By default, consumers are handled synchronous. To queue a consumer implement `ShouldQueue` on your consumer class.
- 
- ### Registering consumers
- 
- Consumers can be registered within the `$consumers` property on the AggregateRootRepository. 
-  
- The queue consumers should run on can be set using the `$queue` property on the AggregateRootRepository.
- 
-```php
- final class RegistrationAggregateRootRepository extends AggregateRootRepository
- {
-     ...
-     protected array $consumers = [
-        \Tests\Fixtures\SendConfirmationNotification::class
-    ];
-    
-    protected string $queue = 'user-aggregate-root';
- }
+
+This will scaffold the following files:
+
+- `App\Domain\Registration`
+- `App\Domain\RegistrationId`
+- `App\Domain\RegistrationRepository`
+- `database/migrations/xxxx_xx_xx_create_registration_domain_messages_table.php`
+
+These are all the files you need to get started with an Aggregate Root.
+
+### Generating Consumers
+
+Laravel EventSauce can also generate consumers for you. For example, run the `make:consumer` command to generate a `SendEmailConfirmation` process manager:
+
+```bash
+php artisan make:consumer Domain/SendEmailConfirmation
 ```
+
+This will create a class at `App\Domain\SendEmailConfirmation` where you can now define `handle{EventName}` methods to handle events.
 
 ### Generating Commands & Events
 
@@ -184,7 +190,96 @@ You can now generate commands and events for all repositories that you've added 
 php artisan eventsauce:generate
 ```
 
-For more info on creating events and commands with EventSauce, as well as how to define different types, see: https://eventsauce.io/docs/getting-started/create-events-and-commands
+For more info on creating events and commands with EventSauce, as well as how to define different types, [see the EventSauce documentation](https://eventsauce.io/docs/event-sourcing/create-events-and-commands).
+
+## Usage
+
+### Aggregate Roots
+
+More docs coming soon...
+
+### Aggregate Root Repositories
+
+More docs coming soon...
+
+#### Queue Property
+
+You can instruct Laravel to queue all consumers onto a specific queue by setting the `$queue` property:
+
+```php
+use App\Domain\SendConfirmationNotification;
+use EventSauce\LaravelEventSauce\AggregateRootRepository;
+
+final class RegistrationAggregateRootRepository extends AggregateRootRepository
+{
+    protected array $consumers = [
+        SendConfirmationNotification::class,
+    ];
+    
+    protected string $queue = 'registrations';
+}
+```
+
+This will force all consumers who have the `ShouldQueue` contract implemented to make use of the `registrations` queue instead of the default queue defined in your `queue.php` config file.
+
+### Consumers
+
+Consumers are classes that react to events fired from your aggregate roots. There's two types of consumers: projections and process managers. Projections update read models (think updating data in databases, updating reports,...) while process managers handle one-time tasks (think sending emails, triggering builds, ...). For more information on how to use them, check out EventSauce's [Reacting to Events](https://eventsauce.io/docs/reacting-to-events/setup-consumers/) documentation.
+
+A `SendEmailConfirmation` process manager, for example, can look like this:
+
+```php
+use App\Events\UserWasRegistered;
+use App\Models\User;
+use App\Notifications\NewUserNotification;
+use EventSauce\LaravelEventSauce\Consumer;
+
+final class SendConfirmationNotification extends Consumer
+{
+    protected function handleUserWasRegistered(UserWasRegistered $event): void
+    {
+        User::where('email', $event->email())
+            ->first()
+            ->notify(new NewUserNotification());
+    }
+}
+```
+
+Within this consumer you always define methods following the `handle{EventName}` specification.
+
+#### Registering Consumers
+
+After writing your consumer, you can register them with the `$consumers` property on the related `AggregateRootRepository`:
+
+```php
+use App\Domain\SendConfirmationNotification;
+use EventSauce\LaravelEventSauce\AggregateRootRepository;
+
+final class RegistrationAggregateRootRepository extends AggregateRootRepository
+{
+    protected array $consumers = [
+        SendConfirmationNotification::class,
+    ];
+}
+```
+
+The sequence of adding consumers shouldn't matter as the data handling within these consumers should always be treated as independent from each other.
+
+#### Queueing Consumers
+
+By default, consumers are handled synchronous. To queue a consumer you should implement the `ShouldQueue` contract on your consumer class.
+
+```php
+use EventSauce\LaravelEventSauce\Consumer;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+final class SendConfirmationNotification extends Consumer implements ShouldQueue
+{
+    ...
+}
+```
+
+By doing so, we'll instruct Laravel to queue the consumer and let the data handling be done at a later point in time. This is useful to delay long-running data processing.
 
 ## Changelog
 

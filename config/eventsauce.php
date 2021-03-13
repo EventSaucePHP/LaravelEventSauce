@@ -20,7 +20,7 @@ return [
      * We'll use this info to generate commands and events.
      *
      * More info on code generation here:
-     * https://eventsauce.io/docs/getting-started/create-events-and-commands
+     * https://eventsauce.io/docs/event-sourcing/create-events-and-commands
      */
 
     'repositories' => [
