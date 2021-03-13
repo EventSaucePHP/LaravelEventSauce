@@ -2,7 +2,13 @@
 
 This changelog follows [the Keep a Changelog standard](https://keepachangelog.com).
 
-## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.3.0...main)
+## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.3.1...main)
+
+
+## [0.3.1 (2021-03-13)](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.3.0...0.3.1)
+
+### Added
+- Optional queue connection configuration ([#23](https://github.com/EventSaucePHP/LaravelEventSauce/pull/23))
 
 
 ## [0.3.0 (2020-11-01)](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.2.2...0.3.0)
