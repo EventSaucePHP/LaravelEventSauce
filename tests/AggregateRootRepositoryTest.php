@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Tests;
 
 use EventSauce\LaravelEventSauce\AggregateRootRepository;
+use EventSauce\LaravelEventSauce\HandleConsumer;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Schema;
 use LogicException;
+use Tests\Fixtures\QueueableConsumer;
 use Tests\Fixtures\RegisterUser;
 use Tests\Fixtures\RegistrationAggregateRoot;
 use Tests\Fixtures\RegistrationAggregateRootId;
@@ -82,6 +85,20 @@ class AggregateRootRepositoryTest extends TestCase
         $this->persistAggregate(RegistrationAggregateRootRepository::class);
 
         $this->assertDatabaseHas('users', ['name' => 'Dries Vints', 'email' => 'dries.vints@gmail.com']);
+    }
+
+    /** @test */
+    public function it_can_dispatch_its_consumers_on_a_configured_queue()
+    {
+        Bus::fake();
+
+        $this->persistAggregate(RepositoryWithCustomQueue::class);
+
+        Bus::assertDispatched(HandleConsumer::class, function (HandleConsumer $job) {
+            $this->assertEquals('eventsource-queue', $job->queue);
+
+            return true;
+        });
     }
 
     /**
@@ -163,4 +180,15 @@ final class RepositoryWithCustomTable extends AggregateRootRepository
     protected string $aggregateRoot = RegistrationAggregateRoot::class;
 
     protected string $table = 'event_store';
+}
+
+final class RepositoryWithCustomQueue extends AggregateRootRepository
+{
+    protected string $aggregateRoot = RegistrationAggregateRoot::class;
+
+    protected string $queue = 'eventsource-queue';
+
+    protected array $consumers = [
+        QueueableConsumer::class,
+    ];
 }

@@ -8,6 +8,7 @@ use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\MessageDispatcher;
 use EventSauce\EventSourcing\MessageDispatcherChain;
 use LogicException;
 
@@ -22,6 +23,8 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     protected string $connection = '';
 
     protected string $table = '';
+
+    protected string $queue = '';
 
     protected static string $inputFile = '';
 
@@ -65,9 +68,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             $this->aggregateRoot,
             $this->messageRepository,
             new MessageDispatcherChain(
-                new LaravelMessageDispatcher(
-                    ...$this->consumers,
-                ),
+                $this->buildLaravelMessageDispatcher(),
                 new EventMessageDispatcher(),
             ),
         );
@@ -81,5 +82,18 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     public static function outputFile(): string
     {
         return static::$outputFile;
+    }
+
+    private function buildLaravelMessageDispatcher(): MessageDispatcher
+    {
+        $dispatcher = new LaravelMessageDispatcher(
+            ...$this->consumers,
+        );
+
+        if ($this->queue) {
+            $dispatcher->onQueue($this->queue);
+        }
+
+        return $dispatcher;
     }
 }

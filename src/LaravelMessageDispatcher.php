@@ -13,6 +13,8 @@ final class LaravelMessageDispatcher implements MessageDispatcher
     /** @var string[] */
     private $consumers;
 
+    private string $queue = '';
+
     public function __construct(string ...$consumers)
     {
         $this->consumers = $consumers;
@@ -22,10 +24,21 @@ final class LaravelMessageDispatcher implements MessageDispatcher
     {
         foreach ($this->consumers as $consumer) {
             if (is_a($consumer, ShouldQueue::class, true)) {
-                dispatch(new HandleConsumer($consumer, ...$messages));
+                $dispatch = dispatch(new HandleConsumer($consumer, ...$messages));
+
+                if ($this->queue) {
+                    $dispatch->onQueue($this->queue);
+                }
             } else {
                 dispatch_now(new HandleConsumer($consumer, ...$messages));
             }
         }
+    }
+
+    public function onQueue(string $queue): self
+    {
+        $this->queue = $queue;
+
+        return $this;
     }
 }
