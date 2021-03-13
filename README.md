@@ -21,7 +21,7 @@
 
 # Laravel EventSauce
 
-This library allows you to easily integrate [EventSauce](https://eventsauce.io) with your Laravel application. It takes out the tedious work of having to set up your own message dispatcher and provides an easy API to set up Aggregate Roots, Aggregate Root Repositories, Consumers, and more. It also comes with a range of scaffolding console commands to easily generate the boilerplate needed to get started with an Event Sourced application.
+This library allows you to easily integrate [EventSauce](https://eventsauce.io) with your Laravel application. It takes out the tedious work of having to set up your own message dispatcher and provides an easy API to set up [aggregate roots](#aggregate-roots), [aggregate root repositories](#aggregate-root-repositories), [consumers](#consumers), and more. It also comes with a range of scaffolding console commands to easily generate the boilerplate needed to get started with an Event Sourced application.
 
 While already usable, this library is currently still a work in progress. More documentation and features will be added over time. We appreciate pull requests that help extend and improve this project.
 
@@ -109,7 +109,7 @@ Laravel EventSauce comes with some commands that you can use to scaffold objects
 
 ### Generating Aggregate Roots
 
-Laravel EventSauce can generate aggregate roots and its related files for you. By using the `make:aggregate-root` command, you can generate the following objects and files:
+Laravel EventSauce can generate [aggregate roots](#aggregate-roots) and its related files for you. By using the `make:aggregate-root` command, you can generate the following objects and files:
 
 - The `AggregateRoot`
 - The `AggregateRootId`
@@ -129,11 +129,11 @@ This will scaffold the following files:
 - `App\Domain\RegistrationRepository`
 - `database/migrations/xxxx_xx_xx_create_registration_domain_messages_table.php`
 
-These are all the files you need to get started with an Aggregate Root.
+These are all the files you need to get started with an https://github.com/EventSaucePHP/LaravelEventSauce.
 
 ### Generating Consumers
 
-Laravel EventSauce can also generate consumers for you. For example, run the `make:consumer` command to generate a `SendEmailConfirmation` process manager:
+Laravel EventSauce can also generate [consumers](#consumers) for you. For example, run the `make:consumer` command to generate a `SendEmailConfirmation` process manager:
 
 ```bash
 php artisan make:consumer Domain/SendEmailConfirmation
