@@ -25,27 +25,6 @@ This library allows you to easily integrate [EventSauce](https://eventsauce.io) 
 
 While already usable, this library is currently still a work in progress. More documentation and features will be added over time. We appreciate pull requests that help extend and improve this project.
 
-## Table of Contents
-
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuration](#configuration)
-    - [Migrations](#migrations)
-    - [Default Connection](#default-connection)
-    - [Default Table](#default-table)
-- [Scaffolding](#scaffolding)
-    - [Generating Aggregate Roots](#generating-aggregate-roots)
-    - [Generating Consumers](#generating-consumers)
-    - [Generating Commands & Events](#generating-commands--events)
-- [Usage](#usage)
-    - [Aggregate Roots](#aggregate-roots)
-    - [Aggregate Root Repositories](#aggregate-root-repositories)
-    - [Consumers](#consumers)
-- [Changelog](#changelog)
-- [Maintainers](#maintainers)
-- [Acknowledgments](#acknowledgments)
-- [License](#license)
-
 ## Requirements
 
 - PHP 7.4 or higher
