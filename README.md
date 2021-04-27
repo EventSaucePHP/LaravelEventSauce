@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://eventsauce.io">
-        <img src="https://eventsauce.io/static/logo.svg" height="100px" width="100px">
+        <img src="https://eventsauce.io/static/logo.svg" height="150px" width="150px">
     </a>
 </p>
 
