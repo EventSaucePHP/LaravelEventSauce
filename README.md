@@ -23,7 +23,7 @@
 
 This library allows you to easily integrate [EventSauce](https://eventsauce.io) with your Laravel application. It takes out the tedious work of having to set up your own message dispatcher and provides an easy API to set up [aggregate roots](#aggregate-roots), [aggregate root repositories](#aggregate-root-repositories), [consumers](#consumers), and more. It also comes with a range of scaffolding console commands to easily generate the boilerplate needed to get started with an Event Sourced application.
 
-While already usable, this library is currently still a work in progress. More documentation and features will be added over time. We appreciate pull requests that help extend and improve this project.
+> ⚠️ While already usable, this library is currently still a work in progress. More documentation and features will be added over time. We appreciate pull requests that help extend and improve this project.
 
 ## Requirements
 
