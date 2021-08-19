@@ -8,6 +8,7 @@ use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\MessageDecorator;
 use EventSauce\EventSourcing\MessageDispatcher;
 use EventSauce\EventSourcing\MessageDispatcherChain;
 use LogicException;
@@ -71,6 +72,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
                 $this->buildLaravelMessageDispatcher(),
                 new EventMessageDispatcher(),
             ),
+            resolve(MessageDecorator::class)
         );
     }
 

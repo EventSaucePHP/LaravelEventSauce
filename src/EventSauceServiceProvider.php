@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce;
 
+use EventSauce\EventSourcing\DefaultHeadersDecorator;
+use EventSauce\EventSourcing\MessageDecorator;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use EventSauce\LaravelEventSauce\Console\GenerateCommand;
@@ -38,8 +40,12 @@ final class EventSauceServiceProvider extends ServiceProvider
             MakeConsumerCommand::class,
         ]);
 
-        $this->app->bind(MessageSerializer::class, function () {
-            return new ConstructingMessageSerializer();
+        $this->app->bind(MessageSerializer::class, function ($app) {
+            return $app->make(ConstructingMessageSerializer::class);
+        });
+
+        $this->app->bind(MessageDecorator::class, function ($app) {
+            return $app->make(DefaultHeadersDecorator::class);
         });
     }
 
