@@ -72,7 +72,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
                 $this->buildLaravelMessageDispatcher(),
                 new EventMessageDispatcher(),
             ),
-            resolve(MessageDecorator::class)
+            resolve(MessageDecorator::class),
         );
     }
 
