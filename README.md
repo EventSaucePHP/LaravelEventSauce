@@ -266,7 +266,7 @@ Check out the [CHANGELOG](CHANGELOG.md) in this repository for all the recent ch
 
 ## Maintainers
 
-Laravel EventSauce is developed and maintained by [Dries Vints](https://driesvints.com).
+[This project is currently looking for a new maintainer.](https://github.com/EventSaucePHP/LaravelEventSauce/issues/28)
 
 ## Acknowledgments
 
