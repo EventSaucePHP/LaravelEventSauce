@@ -11,6 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Schema;
 use LogicException;
+use Tests\Fixtures\ExceptionThrowingMessageDecorator;
 use Tests\Fixtures\QueueableConsumer;
 use Tests\Fixtures\RegisterUser;
 use Tests\Fixtures\RegistrationAggregateRoot;
@@ -136,6 +137,15 @@ class AggregateRootRepositoryTest extends TestCase
         ]);
     }
 
+
+    /** @test */
+    public function it_can_have_have_message_decorators()
+    {
+        $this->expectExceptionObject(new LogicException("A message decorator was triggered"));
+
+        $this->persistAggregate(RepositoryWithExceptionThrowingDecorator::class);
+    }
+
     private function persistAggregate(string $repository): void
     {
         $repository = $this->repository($repository);
@@ -180,6 +190,13 @@ final class RepositoryWithCustomTable extends AggregateRootRepository
     protected string $aggregateRoot = RegistrationAggregateRoot::class;
 
     protected string $table = 'event_store';
+}
+
+final class RepositoryWithExceptionThrowingDecorator extends AggregateRootRepository
+{
+    protected string $aggregateRoot = RegistrationAggregateRoot::class;
+
+    protected array $decorators = [ExceptionThrowingMessageDecorator::class];
 }
 
 final class RepositoryWithCustomQueue extends AggregateRootRepository

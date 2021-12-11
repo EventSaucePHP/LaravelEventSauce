@@ -8,10 +8,16 @@ use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
 use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
+use EventSauce\EventSourcing\DefaultHeadersDecorator;
 use EventSauce\EventSourcing\MessageDecorator;
+use EventSauce\EventSourcing\MessageDecoratorChain;
 use EventSauce\EventSourcing\MessageDispatcher;
 use EventSauce\EventSourcing\MessageDispatcherChain;
 use LogicException;
+
+use function array_unshift;
+use function in_array;
+use function resolve;
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
@@ -20,6 +26,8 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
     protected string $aggregateRoot = '';
 
     protected array $consumers = [];
+
+    protected array $decorators = [];
 
     protected string $connection = '';
 
@@ -72,7 +80,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
                 $this->buildLaravelMessageDispatcher(),
                 new EventMessageDispatcher(),
             ),
-            resolve(MessageDecorator::class),
+            new MessageDecoratorChain(...$this->buildMessageDecorators()),
         );
     }
 
@@ -97,5 +105,20 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         }
 
         return $dispatcher;
+    }
+
+    private function buildMessageDecorators(): array
+    {
+        if ( ! in_array(DefaultHeadersDecorator::class, $this->decorators)) {
+            array_unshift($this->decorators, DefaultHeadersDecorator::class);
+        }
+
+        $decorators = [];
+
+        foreach ($this->decorators as $decorator) {
+            $decorators[] = resolve($decorator);
+        }
+
+        return $decorators;
     }
 }
