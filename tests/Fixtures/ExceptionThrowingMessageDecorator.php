@@ -10,6 +10,6 @@ class ExceptionThrowingMessageDecorator implements MessageDecorator
 {
     public function decorate(Message $message): Message
     {
-        throw new LogicException("A message decorator was triggered");
+        throw new LogicException('A message decorator was triggered');
     }
 }

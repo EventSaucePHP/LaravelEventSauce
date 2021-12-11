@@ -137,11 +137,10 @@ class AggregateRootRepositoryTest extends TestCase
         ]);
     }
 
-
     /** @test */
     public function it_can_have_have_message_decorators()
     {
-        $this->expectExceptionObject(new LogicException("A message decorator was triggered"));
+        $this->expectExceptionObject(new LogicException('A message decorator was triggered'));
 
         $this->persistAggregate(RepositoryWithExceptionThrowingDecorator::class);
     }
