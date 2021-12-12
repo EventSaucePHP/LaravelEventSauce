@@ -2,8 +2,13 @@
 
 This changelog follows [the Keep a Changelog standard](https://keepachangelog.com).
 
-## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.3.1...main)
+## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.4.0...main)
 
+## [0.4.0 (2021-12-12)](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.3.1...0.4.0)
+
+### Added
+
+- Added decorator support ([bfd70ec](https://github.com/EventSaucePHP/LaravelEventSauce/commit/bfd70ecae99cfded6a0cd4398f4be2e779c92a05))
 
 ## [0.3.1 (2021-03-13)](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.3.0...0.3.1)
 
