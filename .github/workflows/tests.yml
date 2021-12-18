@@ -17,9 +17,13 @@ jobs:
       matrix:
         php: ['8.0', 8.1]
         eventsauce: ['^0.8.2', '^1.2.0']
-        code-gen: ['no', '^1.0']
+        code-gen: ['^1.0']
         laravel: [8]
         include:
+          - php: 8.1
+            laravel: 8
+            code-gen: 'no'
+            eventsauce: '^1.2.0'
           - php: 7.4
             laravel: 8
             code-gen: 'no'
