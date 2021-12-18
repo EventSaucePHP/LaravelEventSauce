@@ -39,6 +39,10 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           coverage: none
 
+      - name: Install specific eventsauce version
+        run: |
+          composer require "eventsauce/eventsauce=${{ matrix.eventsauce }}" -w --prefer-dist --no-interaction --no-update
+
       - name: Install code-generation
         if: ${{ matrix.code-gen != 'no' }}
         run: |
@@ -47,7 +51,6 @@ jobs:
       - name: Install dependencies
         run: |
           composer require "illuminate/contracts=^${{ matrix.laravel }}" -w --prefer-dist --no-interaction --no-update
-          composer require "eventsauce/eventsauce=${{ matrix.eventsauce }}" -w --prefer-dist --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests
