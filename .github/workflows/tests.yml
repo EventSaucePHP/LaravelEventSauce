@@ -21,10 +21,6 @@ jobs:
           - php: 7.4
             laravel: 8
             code-gen: 'no'
-            eventsauce: '^1.2.0'
-          - php: 7.4
-            laravel: 8
-            code-gen: 'no'
             eventsauce: '^0.8.1'
 
 
