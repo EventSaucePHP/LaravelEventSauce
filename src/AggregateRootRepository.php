@@ -59,12 +59,12 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         return $this->repository()->retrieve($aggregateRootId);
     }
 
-    public function persist(object $aggregateRoot)
+    public function persist(object $aggregateRoot): void
     {
         $this->repository()->persist($aggregateRoot);
     }
 
-    public function persistEvents(AggregateRootId $aggregateRootId, int $aggregateRootVersion, object ...$events)
+    public function persistEvents(AggregateRootId $aggregateRootId, int $aggregateRootVersion, object ...$events): void
     {
         $this->repository()->persistEvents($aggregateRootId, $aggregateRootVersion, ...$events);
     }

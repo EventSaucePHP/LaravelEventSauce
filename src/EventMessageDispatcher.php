@@ -9,7 +9,7 @@ use EventSauce\EventSourcing\MessageDispatcher;
 
 final class EventMessageDispatcher implements MessageDispatcher
 {
-    public function dispatch(Message ...$messages)
+    public function dispatch(Message ...$messages): void
     {
         foreach ($messages as $message) {
             event($message->event());

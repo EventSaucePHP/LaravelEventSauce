@@ -21,7 +21,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
-        "eventsauce/eventsauce": "^0.8.2",
+        "eventsauce/eventsauce": "^0.8.2|^1.0.0",
         "illuminate/bus": "^8.0",
         "illuminate/container": "^8.0",
         "illuminate/queue": "^8.0",
@@ -31,6 +31,9 @@
     "require-dev": {
         "orchestra/testbench": "^6.0",
         "phpunit/phpunit": "^9.3"
+    },
+    "suggest": {
+        "eventsauce/code-generation": "Generate commands and events with ease"
     },
     "autoload": {
         "psr-4": {

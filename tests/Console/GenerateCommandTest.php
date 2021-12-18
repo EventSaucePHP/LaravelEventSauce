@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Console;
 
+use function class_exists;
+use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\LaravelEventSauce\AggregateRootRepository;
 use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Tests\Fixtures\RegistrationAggregateRootRepository;
@@ -11,6 +13,15 @@ use Tests\TestCase;
 
 class GenerateCommandTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        if (! class_exists(CodeDumper::class)) {
+            self::markTestSkipped('eventsauce/code-generation is not installed');
+        }
+    }
+
     /** @test */
     public function it_can_generate_eventsauce_code()
     {

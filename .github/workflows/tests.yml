@@ -2,6 +2,8 @@ name: Tests
 
 on:
   push:
+    branches:
+      - main
   pull_request:
   schedule:
     - cron: '0 0 * * *'
@@ -13,8 +15,20 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.4, '8.0', 8.1]
+        php: ['8.0', 8.1]
+        eventsauce: ['^0.8.2', '^1.2.0']
+        code-gen: ['^1.0']
         laravel: [8]
+        include:
+          - php: 8.1
+            laravel: 8
+            code-gen: 'no'
+            eventsauce: '^1.2.0'
+          - php: 7.4
+            laravel: 8
+            code-gen: 'no'
+            eventsauce: '^0.8.2'
+
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 
@@ -29,9 +43,18 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip
           coverage: none
 
+      - name: Install specific eventsauce version
+        run: |
+          composer require "eventsauce/eventsauce=${{ matrix.eventsauce }}" -w --prefer-dist --no-interaction --no-update
+
+      - name: Install code-generation
+        if: ${{ matrix.code-gen != 'no' && matrix.eventsauce != '^0.8.2' }}
+        run: |
+          composer require "eventsauce/code-generation=${{ matrix.code-gen }}" -w --prefer-dist --no-interaction --no-update
+
       - name: Install dependencies
         run: |
-          composer require "illuminate/contracts=^${{ matrix.laravel }}" --prefer-dist --no-interaction --no-update
+          composer require "illuminate/contracts=^${{ matrix.laravel }}" -w --prefer-dist --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce\Console;
 
+use function class_exists;
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
 use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
@@ -27,6 +28,10 @@ final class GenerateCommand extends Command
 
     public function handle(): void
     {
+        if (! class_exists(CodeDumper::class)) {
+            throw CodeGenerationFailed::codeGenerationNotInstalled();
+        }
+
         $this->info('Start generating code...');
 
         collect(config('eventsauce.repositories', []))

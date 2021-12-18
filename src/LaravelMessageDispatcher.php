@@ -20,7 +20,7 @@ final class LaravelMessageDispatcher implements MessageDispatcher
         $this->consumers = $consumers;
     }
 
-    public function dispatch(Message ...$messages)
+    public function dispatch(Message ...$messages): void
     {
         foreach ($this->consumers as $consumer) {
             if (is_a($consumer, ShouldQueue::class, true)) {

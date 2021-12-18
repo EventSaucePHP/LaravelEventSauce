@@ -34,7 +34,7 @@ final class LaravelMessageRepository implements MessageRepository
         $this->table = (string) $config->get('eventsauce.table');
     }
 
-    public function persist(Message ...$messages)
+    public function persist(Message ...$messages): void
     {
         $connection = $this->connection();
 
@@ -61,7 +61,13 @@ final class LaravelMessageRepository implements MessageRepository
             ->get('payload');
 
         foreach ($payloads as $payload) {
-            yield from $this->serializer->unserializePayload(json_decode($payload->payload, true));
+            $messages = $this->serializer->unserializePayload(json_decode($payload->payload, true));
+
+            if ($messages instanceof Message) {
+                yield $messages;
+            } else {
+                yield from $messages;
+            }
         }
 
         return $payloads->count();
