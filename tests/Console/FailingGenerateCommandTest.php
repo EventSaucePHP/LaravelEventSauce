@@ -2,12 +2,11 @@
 
 namespace Tests\Console;
 
+use function class_exists;
+use function config;
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Tests\TestCase;
-
-use function class_exists;
-use function config;
 
 class FailingGenerateCommandTest extends TestCase
 {

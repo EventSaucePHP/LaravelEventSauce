@@ -28,7 +28,7 @@ final class GenerateCommand extends Command
 
     public function handle(): void
     {
-        if ( ! class_exists(CodeDumper::class)) {
+        if (! class_exists(CodeDumper::class)) {
             throw CodeGenerationFailed::codeGenerationNotInstalled();
         }
 
