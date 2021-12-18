@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce\Console;
 
+use function class_exists;
 use EventSauce\EventSourcing\CodeGeneration\CodeDumper;
 use EventSauce\EventSourcing\CodeGeneration\YamlDefinitionLoader;
 use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-
-use function class_exists;
 
 final class GenerateCommand extends Command
 {
@@ -29,8 +28,9 @@ final class GenerateCommand extends Command
 
     public function handle(): void
     {
-        if ( ! class_exists(CodeDumper::class)) {
+        if (! class_exists(CodeDumper::class)) {
             $this->error('Please run composer require --dev eventsauce/code-generation:^1.0');
+
             return;
         }
 
