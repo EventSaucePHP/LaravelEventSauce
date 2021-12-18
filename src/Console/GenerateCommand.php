@@ -10,6 +10,8 @@ use EventSauce\LaravelEventSauce\Exceptions\CodeGenerationFailed;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
+use function class_exists;
+
 final class GenerateCommand extends Command
 {
     protected $signature = 'eventsauce:generate';
@@ -27,6 +29,11 @@ final class GenerateCommand extends Command
 
     public function handle(): void
     {
+        if ( ! class_exists(CodeDumper::class)) {
+            $this->error('Please run composer require --dev eventsauce/code-generation:^1.0');
+            return;
+        }
+
         $this->info('Start generating code...');
 
         collect(config('eventsauce.repositories', []))
