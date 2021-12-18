@@ -14,7 +14,15 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.4, '8.0', 8.1]
+        eventsauce: ['^0.8.2']
         laravel: [8]
+        test-suffix: [""]
+        include:
+          - php: 8.1
+            laravel: 8
+            eventsauce: '^1.2.0'
+            test-suffix: ' || true'
+
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 
@@ -31,8 +39,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "illuminate/contracts=^${{ matrix.laravel }}" --prefer-dist --no-interaction --no-update
+          composer require "illuminate/contracts=^${{ matrix.laravel }}" -w --prefer-dist --no-interaction --no-update
+          composer require "eventsauce/eventsauce=${{ matrix.eventsauce }}" -w --prefer-dist --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests
-        run: vendor/bin/phpunit --verbose
+        run: vendor/bin/phpunit --verbose ${{ matrix.test-suffix }}
