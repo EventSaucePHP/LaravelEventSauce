@@ -23,7 +23,12 @@ jobs:
             laravel: 8
             code-gen: '^1.0'
             eventsauce: '^1.2.0'
-            test-suffix: ' || true'
+            test-suffix: ''
+          - php: 8.0
+            laravel: 8
+            code-gen: '^1.0'
+            eventsauce: '^1.2.0'
+            test-suffix: ''
 
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
