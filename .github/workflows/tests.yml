@@ -17,18 +17,15 @@ jobs:
         eventsauce: ['^0.8.2']
         laravel: [8]
         code-gen: ['no']
-        test-suffix: [""]
         include:
           - php: 8.1
             laravel: 8
             code-gen: '^1.0'
             eventsauce: '^1.2.0'
-            test-suffix: ''
           - php: 8.0
             laravel: 8
             code-gen: '^1.0'
             eventsauce: '^1.2.0'
-            test-suffix: ''
 
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
@@ -56,4 +53,4 @@ jobs:
           composer update --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests
-        run: vendor/bin/phpunit --verbose ${{ matrix.test-suffix }}
+        run: vendor/bin/phpunit --verbose
