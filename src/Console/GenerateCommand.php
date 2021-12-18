@@ -28,10 +28,8 @@ final class GenerateCommand extends Command
 
     public function handle(): void
     {
-        if (! class_exists(CodeDumper::class)) {
-            $this->error('Please run composer require --dev eventsauce/code-generation:^1.0');
-
-            return;
+        if ( ! class_exists(CodeDumper::class)) {
+            throw CodeGenerationFailed::codeGenerationNotInstalled();
         }
 
         $this->info('Start generating code...');

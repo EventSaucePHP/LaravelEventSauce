@@ -12,4 +12,9 @@ final class CodeGenerationFailed extends Exception
     {
         return new static("The code generation definition file specified in the config file (`{$definitionFile}`) does not exist.");
     }
+
+    public static function codeGenerationNotInstalled(): self
+    {
+        return new static('Code generation is not installed. Please run composer require --dev eventsauce/code-generation:^1.0');
+    }
 }
