@@ -9,7 +9,7 @@ use EventSauce\EventSourcing\Message;
 
 final class UpdateUsersTable implements Consumer
 {
-    public function handle(Message $message)
+    public function handle(Message $message): void
     {
         $event = $message->event();
 

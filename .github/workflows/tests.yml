@@ -16,10 +16,12 @@ jobs:
         php: [7.4, '8.0', 8.1]
         eventsauce: ['^0.8.2']
         laravel: [8]
+        code-gen: ['no']
         test-suffix: [""]
         include:
           - php: 8.1
             laravel: 8
+            code-gen: '^1.0'
             eventsauce: '^1.2.0'
             test-suffix: ' || true'
 
@@ -36,6 +38,11 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip
           coverage: none
+
+      - name: Install code-generation
+        if: ${{ matrix.code-gen != 'no' }}
+        run: |
+          composer require "eventsauce/code-generation=${{ matrix.code-gen }}" -w --prefer-dist --no-interaction --no-update
 
       - name: Install dependencies
         run: |
