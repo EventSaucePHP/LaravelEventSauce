@@ -4,6 +4,10 @@ This changelog follows [the Keep a Changelog standard](https://keepachangelog.co
 
 ## [Unreleased](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.4.0...main)
 
+### Added
+
+- Added eventsauce 1.x support ([#31](https://github.com/EventSaucePHP/LaravelEventSauce/pull/31))
+
 ## [0.4.0 (2021-12-12)](https://github.com/EventSaucePHP/LaravelEventSauce/compare/0.3.1...0.4.0)
 
 ### Added
