@@ -27,8 +27,7 @@ class AggregateRootRepositoryTest extends TestCase
         parent::setUp();
 
         Schema::create('event_store', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('event_id', 36);
+            $table->uuid('event_id')->primary();
             $table->string('event_type', 100);
             $table->string('event_stream', 36)->nullable()->index();
             $table->dateTime('recorded_at', 6)->index();
@@ -75,7 +74,6 @@ class AggregateRootRepositoryTest extends TestCase
         $this->persistAggregate(RegistrationAggregateRootRepository::class);
 
         $this->assertDatabaseHas('domain_messages', [
-            'id' => 1,
             'event_type' => 'tests.fixtures.user_was_registered',
         ]);
     }
@@ -121,7 +119,6 @@ class AggregateRootRepositoryTest extends TestCase
         $this->persistAggregate(RepositoryWithCustomConnection::class);
 
         $this->assertDatabaseHas('domain_messages', [
-            'id' => 1,
             'event_type' => 'tests.fixtures.user_was_registered',
         ], $connection);
     }
@@ -132,7 +129,6 @@ class AggregateRootRepositoryTest extends TestCase
         $this->persistAggregate(RepositoryWithCustomTable::class);
 
         $this->assertDatabaseHas('event_store', [
-            'id' => 1,
             'event_type' => 'tests.fixtures.user_was_registered',
         ]);
     }
