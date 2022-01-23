@@ -14,6 +14,7 @@ final class CreateDomainMessagesTable extends Migration
             $table->string('event_type', 100);
             $table->string('event_stream', 36)->index();
             $table->dateTime('recorded_at', 6)->index();
+            $table->unsignedInteger('version');
             $table->text('payload');
         });
     }

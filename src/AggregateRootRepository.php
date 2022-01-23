@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace EventSauce\LaravelEventSauce;
 
+use EventSauce\EventSourcing\EventSourcedAggregateRootRepository;
+use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\MessageRepository\IlluminateMessageRepository\IlluminateUuidV4MessageRepository;
+use EventSauce\MessageRepository\TableSchema\TableSchema;
+use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Support\Facades\DB;
 use function array_unshift;
 use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\AggregateRootRepository as EventSauceAggregateRootRepository;
-use EventSauce\EventSourcing\ConstructingAggregateRootRepository;
 use EventSauce\EventSourcing\DefaultHeadersDecorator;
 use EventSauce\EventSourcing\MessageDecoratorChain;
 use EventSauce\EventSourcing\MessageDispatcher;
@@ -19,7 +24,6 @@ use function resolve;
 
 abstract class AggregateRootRepository implements EventSauceAggregateRootRepository
 {
-    private LaravelMessageRepository $messageRepository;
 
     protected string $aggregateRoot = '';
 
@@ -37,21 +41,28 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     protected static string $outputFile = '';
 
-    public function __construct(LaravelMessageRepository $messageRepository)
+    protected MessageRepository $messageRepository;
+
+    public function __construct(
+        protected Config $config,
+        ?MessageRepository $messageRepository = null
+    )
     {
         if (! is_a($this->aggregateRoot, AggregateRoot::class, true)) {
             throw new LogicException('You have to set an aggregate root before the repository can be initialized.');
         }
 
-        $this->messageRepository = $messageRepository;
+        $this->messageRepository = $messageRepository ?? $this->constructMessageRepository();
 
-        if ($this->connection) {
-            $this->messageRepository->setConnection($this->connection);
-        }
+    }
 
-        if ($this->table) {
-            $this->messageRepository->setTable($this->table);
-        }
+    private function constructMessageRepository(): MessageRepository
+    {
+        return resolve(IlluminateUuidV4MessageRepository::class, [
+            'connection' => DB::connection($this->connection ?: (string) $this->config->get('eventsauce.connection')),
+            'tableName' => $this->table ?: (string) $this->config->get('eventsauce.table'),
+            'tableSchema' => $this->getTableSchema(),
+        ]);
     }
 
     public function retrieve(AggregateRootId $aggregateRootId): object
@@ -71,7 +82,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
 
     private function repository(): EventSauceAggregateRootRepository
     {
-        return new ConstructingAggregateRootRepository(
+        return new EventSourcedAggregateRootRepository(
             $this->aggregateRoot,
             $this->messageRepository,
             new MessageDispatcherChain(
@@ -80,6 +91,11 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
             ),
             new MessageDecoratorChain(...$this->buildMessageDecorators()),
         );
+    }
+
+    private function getTableSchema(): TableSchema
+    {
+        return new LaravelEventSauceTableSchema();
     }
 
     public static function inputFile(): string
