@@ -93,7 +93,7 @@ abstract class AggregateRootRepository implements EventSauceAggregateRootReposit
         );
     }
 
-    private function getTableSchema(): TableSchema
+    protected function getTableSchema(): TableSchema
     {
         return new LaravelEventSauceTableSchema();
     }
