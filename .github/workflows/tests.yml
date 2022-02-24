@@ -15,20 +15,10 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['8.0', 8.1]
-        eventsauce: ['^0.8.2', '^1.2.0']
+        php: [8.0, 8.1]
+        eventsauce: ['^1.2.0']
         code-gen: ['^1.0']
-        laravel: [8]
-        include:
-          - php: 8.1
-            laravel: 8
-            code-gen: 'no'
-            eventsauce: '^1.2.0'
-          - php: 7.4
-            laravel: 8
-            code-gen: 'no'
-            eventsauce: '^0.8.2'
-
+        laravel: [8, 9]
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 
@@ -48,7 +38,7 @@ jobs:
           composer require "eventsauce/eventsauce=${{ matrix.eventsauce }}" -w --prefer-dist --no-interaction --no-update
 
       - name: Install code-generation
-        if: ${{ matrix.code-gen != 'no' && matrix.eventsauce != '^0.8.2' }}
+        if: ${{ matrix.code-gen != 'no' }}
         run: |
           composer require "eventsauce/code-generation=${{ matrix.code-gen }}" -w --prefer-dist --no-interaction --no-update
 
