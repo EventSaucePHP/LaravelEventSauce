@@ -26,7 +26,7 @@ jobs:
             eventsauce: '^0.8.2'
 
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    name: PHP ${{ matrix.php }} - L ${{ matrix.laravel }} - E ${{ matrix.eventsauce }} - CG ${{ matrix.code-gen }}
 
     steps:
       - name: Checkout code
