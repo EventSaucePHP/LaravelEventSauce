@@ -16,10 +16,14 @@ jobs:
       fail-fast: true
       matrix:
         php: ['8.0', 8.1]
-        eventsauce: ['^0.8.2', '^1.2.0']
+        eventsauce: ['^1.2.0']
         code-gen: ['^1.0']
-        laravel: [8]
+        laravel: [8, 9]
         include:
+          - php: 8.1
+            laravel: 8
+            code-gen: 'no'
+            eventsauce: '^0.8.2'
           - php: 8.1
             laravel: 8
             code-gen: 'no'
@@ -30,7 +34,7 @@ jobs:
             eventsauce: '^0.8.2'
 
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    name: PHP ${{ matrix.php }} - L ${{ matrix.laravel }} - E ${{ matrix.eventsauce }} - CG ${{ matrix.code-gen }}
 
     steps:
       - name: Checkout code
