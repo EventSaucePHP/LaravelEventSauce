@@ -45,11 +45,7 @@ final class LaravelMessageRepository implements MessageRepository
                 'event_id' => $headers[Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
                 'event_type' => $headers[Header::EVENT_TYPE],
                 'event_stream' => $message->aggregateRootId()->toString(),
-                // The interface for timeOfRecording changed from version 0.8 to 1.2.
-                // Since this package supports both versions, we have to check the class timeOfRecording returns.
-                'recorded_at' => $message->timeOfRecording() instanceof PointInTime 
-                    ? $message->timeOfRecording()->dateTime()->format('Y-m-d H:i:s.u')
-                    : $message->timeOfRecording()->format('Y-m-d H:i:s.u'),
+                'recorded_at' => $message->timeOfRecording()->format('Y-m-d H:i:s.u'),
                 'payload' => json_encode($this->serializer->serializeMessage($message)),
             ]);
         });
