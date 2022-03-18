@@ -28,10 +28,6 @@ jobs:
             laravel: 8
             code-gen: 'no'
             eventsauce: '^1.2.0'
-          - php: 7.4
-            laravel: 8
-            code-gen: 'no'
-            eventsauce: '^0.8.2'
 
 
     name: PHP ${{ matrix.php }} - L ${{ matrix.laravel }} - E ${{ matrix.eventsauce }} - CG ${{ matrix.code-gen }}
