@@ -8,6 +8,7 @@ use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\EventSourcing\PointInTime;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Exception;
 use Generator;
@@ -38,17 +39,14 @@ final class LaravelMessageRepository implements MessageRepository
     {
         $connection = $this->connection();
 
-        collect($messages)->map(function (Message $message) {
-            return $this->serializer->serializeMessage($message);
-        })->each(function (array $message) use ($connection) {
-            $headers = $message['headers'];
-
+        collect($messages)->each(function (Message $message) use ($connection) {
+            $headers = $message->headers();
             $connection->table($this->table)->insert([
                 'event_id' => $headers[Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
                 'event_type' => $headers[Header::EVENT_TYPE],
-                'event_stream' => $headers[Header::AGGREGATE_ROOT_ID] ?? null,
-                'recorded_at' => $headers[Header::TIME_OF_RECORDING],
-                'payload' => json_encode($message),
+                'event_stream' => $message->aggregateRootId()->toString(),
+                'recorded_at' => $message->timeOfRecording()->format('Y-m-d H:i:s.u'),
+                'payload' => json_encode($this->serializer->serializeMessage($message)),
             ]);
         });
     }
