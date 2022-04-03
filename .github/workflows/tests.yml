@@ -53,7 +53,7 @@ jobs:
       - name: Install code-generation
         if: ${{ matrix.code-gen != 'no' && matrix.eventsauce != '^0.8.2' }}
         run: |
-          composer require "eventsauce/code-generation" -w --prefer-dist --no-interaction --no-update
+          composer require "eventsauce/code-generation=${{ matrix.eventsauce }}" -w --prefer-dist --no-interaction --no-update
 
       - name: Install dependencies
         run: |
