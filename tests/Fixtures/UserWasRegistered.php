@@ -36,7 +36,7 @@ final class UserWasRegistered implements SerializablePayload
         ];
     }
 
-    public static function fromPayload(array $payload): SerializablePayload
+    public static function fromPayload(array $payload): static
     {
         return new static(
             $payload['name'],

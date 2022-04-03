@@ -16,7 +16,7 @@ jobs:
       fail-fast: true
       matrix:
         php: ['8.0', 8.1]
-        eventsauce: ['^1.2.0']
+        eventsauce: ['^1.2.0', '^2.0']
         code-gen: ['^1.0']
         laravel: [8, 9]
         include:
