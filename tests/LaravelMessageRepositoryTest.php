@@ -37,7 +37,6 @@ class LaravelMessageRepositoryTest extends TestCase
         $this->repository->persist($message);
 
         $this->assertDatabaseHas('domain_messages', [
-            'id' => 1,
             'event_type' => 'tests.fixtures.user_was_registered',
         ]);
     }
