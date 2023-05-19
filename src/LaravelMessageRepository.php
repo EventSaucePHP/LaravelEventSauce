@@ -8,6 +8,8 @@ use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\EventSourcing\OffsetCursor;
+use EventSauce\EventSourcing\PaginationCursor;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Exception;
 use Generator;
@@ -94,5 +96,26 @@ final class LaravelMessageRepository implements MessageRepository
     public function setTable(string $table): void
     {
         $this->table = $table;
+    }
+
+    public function paginate(PaginationCursor|OffsetCursor $cursor): Generator
+    {
+        $payloads = $this->connection()->table($this->table)
+            ->orderBy('recorded_at')
+            ->offset($cursor->offset())
+            ->limit($cursor->limit())
+            ->get('payload');
+
+        foreach ($payloads as $payload) {
+            $messages = $this->serializer->unserializePayload(json_decode($payload->payload, true));
+
+            if ($messages instanceof Message) {
+                yield $messages;
+            } else {
+                yield from $messages;
+            }
+        }
+
+        return $payloads->count();
     }
 }
