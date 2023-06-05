@@ -30,7 +30,7 @@ final class LaravelMessageDispatcher implements MessageDispatcher
                     $dispatch->onQueue($this->queue);
                 }
             } else {
-                dispatch_now(new HandleConsumer($consumer, ...$messages));
+                dispatch_sync(new HandleConsumer($consumer, ...$messages));
             }
         }
     }
