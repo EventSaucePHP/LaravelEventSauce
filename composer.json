@@ -22,10 +22,10 @@
         "php": "^7.4|^8.0",
         "ext-json": "*",
         "eventsauce/eventsauce": "^1.0|^2.0",
-        "illuminate/bus": "^8.0|^9.0",
-        "illuminate/container": "^8.0|^9.0",
-        "illuminate/queue": "^8.0|^9.0.0",
-        "illuminate/support": "^8.0|^9.0",
+        "illuminate/bus": "^8.0|^9.0|^10.0",
+        "illuminate/container": "^8.0|^9.0|^10.0",
+        "illuminate/queue": "^8.0|^9.0.0|^10.0",
+        "illuminate/support": "^8.0|^9.0|^10.0",
         "ramsey/uuid": "^3.8|^4.0"
     },
     "require-dev": {
